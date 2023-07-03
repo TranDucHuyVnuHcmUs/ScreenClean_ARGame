@@ -18,7 +18,7 @@ namespace Mediapipe.Unity.HandTracking
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromPalmDetectionsAnnotationController;
         [SerializeField] private MultiHandLandmarkListAnnotationController _handLandmarksAnnotationController;
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromLandmarksAnnotationController;
-        public HandGestureRecorder handGestureRegister;
+        public HandGestureRecorder handGestureRecorder;
 
         public HandTrackingGraph.ModelComplexity modelComplexity
         {
@@ -108,7 +108,7 @@ namespace Mediapipe.Unity.HandTracking
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {
-                handGestureRegister.GetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
+                handGestureRecorder.GetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
             }
         }
 

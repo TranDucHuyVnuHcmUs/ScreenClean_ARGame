@@ -6,15 +6,33 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
+public class HandGestureLandmarkList
+{
+    public List<Vector3> landmarks;
+
+    public HandGestureLandmarkList()
+    {
+        landmarks = new List<Vector3>();
+    }
+
+    public HandGestureLandmarkList(List<Vector3> landmarks)
+    {
+        this.landmarks = landmarks;
+    }
+}
+
+
+[System.Serializable]
 public class HandGestureSample
 {
     public string gestureName;
-    public DateTime recordDate;
-    public List<List<Vector3>> landmarkss;
+    public string recordDate;
+    public List<HandGestureLandmarkList> landmarkLists;
 
     public HandGestureSample()
     {
-        landmarkss = new List<List<Vector3>>();
+        landmarkLists = new List<HandGestureLandmarkList>();
+        recordDate = DateTime.Now.ToString("ddMMyyyy_HHmm");
     }
 }
 
@@ -34,7 +52,7 @@ public class HandGestureRecorder : MonoBehaviour
         if (isRecording)
         {
             var normlandmarks = NormalizeLandmark(landmarks);
-            recordingSample.landmarkss.Add(normlandmarks);          // collect as many landmark set as possible, so as to increase accuracy later on!
+            recordingSample.landmarkLists.Add(normlandmarks);          // collect as many landmark set as possible, so as to increase accuracy later on!
         }
     }
 
@@ -42,6 +60,11 @@ public class HandGestureRecorder : MonoBehaviour
     {
         isRecording = true;
         recordingSample = new HandGestureSample();
+    }
+    internal void StartRecording(string gestureName)
+    {
+        StartRecording();
+        recordingSample.gestureName = gestureName;
     }
 
     public void StopRecording()
@@ -53,10 +76,12 @@ public class HandGestureRecorder : MonoBehaviour
     //use some kind of file saving?
     private void SaveRecordedLandmarks()
     {
-
+         this.configObj.SaveToPersistence(
+             this.recordingSample.gestureName + "_" + this.recordingSample.recordDate + ".json", 
+             JsonUtility.ToJson(this.recordingSample));
     }
 
-    private List<Vector3> NormalizeLandmark(NormalizedLandmarkList landmarks)
+    private HandGestureLandmarkList NormalizeLandmark(NormalizedLandmarkList landmarks)
     {
         float inf = 9999999;
         float minX = inf, minY = inf, minZ = inf, maxX = -inf, maxY = -inf, maxZ = -inf;
@@ -84,6 +109,7 @@ public class HandGestureRecorder : MonoBehaviour
         }
 
         //Debug.Log(string.Format("Bounding box: min:({0},{1},{2}), max:({3},{4},{5})", minX, minY, minZ, maxX, maxY, maxZ));
-        return landmark_vecs;
+        return new HandGestureLandmarkList(landmark_vecs);
     }
+
 }

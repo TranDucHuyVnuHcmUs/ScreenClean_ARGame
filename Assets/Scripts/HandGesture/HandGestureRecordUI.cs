@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class HandGestureRecordUI : MonoBehaviour
 {
-    public HandGestureRecorder register;
+    public HandGestureRecorder recorder;
 
-    public TextField nameTextField;
-    public Button recordButton;
+    public InputField nameField;
+    public Text recordButtonText;
 
     public bool isRecording = false;
 
     public string GetNameFromUI()
     {
-        return nameTextField.text;
+        return nameField.text;
     }
 
     public void Toggle()
@@ -20,10 +20,14 @@ public class HandGestureRecordUI : MonoBehaviour
         isRecording = !isRecording;
         if (isRecording)
         {
-            register.StartRecording();
-            recordButton.text = "Stop";
+            recorder.StartRecording(nameField.text);
+            recordButtonText.text = "Stop";
         }
-        else recordButton.text = "Start";
+        else
+        {
+            recorder.StopRecording();
+            recordButtonText.text = "Start";
+        }
     }
 
 
