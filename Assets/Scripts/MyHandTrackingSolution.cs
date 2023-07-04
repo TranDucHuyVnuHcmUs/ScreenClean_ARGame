@@ -99,13 +99,6 @@ namespace Mediapipe.Unity.HandTracking
         private void OnPalmDetectionsOutput(object stream, OutputEventArgs<List<Detection>> eventArgs)
         {
             //_palmDetectionsAnnotationController.DrawLater(eventArgs.value);
-            if (eventArgs.value != null)
-            { 
-                foreach (var detection in eventArgs.value)
-                {
-                    Debug.Log("Palm output: " + detection.ToString());
-                } 
-            }
         }
 
         private void OnHandRectsFromPalmDetectionsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)

@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRecording: 0
-  configObj: {fileID: 11400000, guid: 858770b2e9350984b9444465e924624d, type: 2}
+  storageObj: {fileID: 11400000, guid: 858770b2e9350984b9444465e924624d, type: 2}
 --- !u!4 &633404738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5535674424067552597, guid: 26114bc9cccb92454a468ea4d41f400a, type: 3}

@@ -7,6 +7,12 @@ public class HandGestureControlBind
     public string key;
     public string gesturePath;
     [NonSerialized] public HandGestureSample gesture;
+
+    public HandGestureControlBind(string key, string gesturePath)
+    {
+        this.key = key;
+        this.gesturePath = gesturePath;
+    }
 }
 
 /// <summary>
@@ -16,4 +22,11 @@ public class HandGestureControlBind
 public class HandGestureControlBindingData
 {
     public List<HandGestureControlBind> bindings;
+
+    public HandGestureControlBindingData()
+    {
+        bindings = new List<HandGestureControlBind>();
+    }
+
+
 }

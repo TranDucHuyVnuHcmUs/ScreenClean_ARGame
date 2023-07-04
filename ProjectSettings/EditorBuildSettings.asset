@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MediaPipeUnity/Samples/Scenes/Hand Tracking/Hand Tracking.unity
-    guid: 08035b20d3836a599ad2fd3d81e41ee5
+    path: Assets/Scenes/MenuScene.unity
+    guid: 1436ba04af816f845942b23616ac416b
+  - enabled: 1
+    path: Assets/Scenes/ScreenCleaningScene.unity
+    guid: 22fbe4b3c715d8b458513420d9b494c6
+  - enabled: 1
+    path: Assets/Scenes/HandGestureRecorderScene.unity
+    guid: 5eb085656a7a42c4089059febc4a77f2
+  - enabled: 1
+    path: Assets/Scenes/HandGestureBindingScene.unity
+    guid: 4633a96b814370a499547616da064037
   m_configObjects: {}
