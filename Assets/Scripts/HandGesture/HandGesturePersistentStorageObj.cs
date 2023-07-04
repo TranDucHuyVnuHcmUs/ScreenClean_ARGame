@@ -39,6 +39,8 @@ public class HandGestureSample
 public class HandGesturePersistentStorageObj : ScriptableObject
 {
     public string folderPath;       // append with persistent datapath on the beginning of the path.
+    public List<HandGestureSample> samples;
+    private bool isInitialized = false;
 
     private string GetPath()
     {
@@ -88,6 +90,8 @@ public class HandGesturePersistentStorageObj : ScriptableObject
 
     public List<HandGestureSample> ReadAllSample()
     {
+        if (isInitialized) return this.samples;
+
         var filePaths = Directory.GetFiles(GetPath());
         List<HandGestureSample> samples = new List<HandGestureSample>();
         for (int i = 0; i < filePaths.Length; i++) {
@@ -95,5 +99,11 @@ public class HandGesturePersistentStorageObj : ScriptableObject
         }
         Debug.Log(samples.ToArray().ToString());
         return samples;
+    }
+
+    internal void Initialize()
+    {
+        if (isInitialized) return;
+        this.samples = ReadAllSample();
     }
 }
