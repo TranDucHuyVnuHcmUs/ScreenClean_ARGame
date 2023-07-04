@@ -18,7 +18,6 @@ namespace Mediapipe.Unity.HandTracking
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromPalmDetectionsAnnotationController;
         [SerializeField] private MultiHandLandmarkListAnnotationController _handLandmarksAnnotationController;
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromLandmarksAnnotationController;
-        public HandGestureRecorder handGestureRegister;
 
         public BoxAnnotationController _boxPalmAnnotationController;
 
@@ -113,46 +112,21 @@ namespace Mediapipe.Unity.HandTracking
         {
             //_handRectsFromPalmDetectionsAnnotationController.DrawLater(eventArgs.value);
             _boxPalmAnnotationController.DrawLater(eventArgs.value);
-            if (eventArgs.value != null)
-            {
-                foreach  (var detection in eventArgs.value)
-                {
-                    Debug.Log("Hand rects from palm output: " + detection.ToString());
-                }
-            }
         }
 
         private void OnHandLandmarksOutput(object stream, OutputEventArgs<List<NormalizedLandmarkList>> eventArgs)
         {
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
-            if (eventArgs.value != null && eventArgs.value.Count > 0)
-            {
-                handGestureRegister.GetLandmarks(eventArgs.value[0]);
-            }
         }
 
         private void OnHandRectsFromLandmarksOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
         {
             //_handRectsFromLandmarksAnnotationController.DrawLater(eventArgs.value);
-            if (eventArgs.value != null)
-            {
-                foreach (var detection in eventArgs.value)
-                {
-                    Debug.Log("Hand rects from landmarks output: " + detection.ToString());
-                }
-            }
         }
 
         private void OnHandednessOutput(object stream, OutputEventArgs<List<ClassificationList>> eventArgs)
         {
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
-            if (eventArgs.value != null)
-            {
-                foreach (var detection in eventArgs.value)
-                {
-                    Debug.Log("Handedness output: " + detection.ToString());
-                }
-            }
         }
     }
 }

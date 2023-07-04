@@ -5,42 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[System.Serializable]
-public class HandGestureLandmarkList
-{
-    public List<Vector3> landmarks;
-
-    public HandGestureLandmarkList()
-    {
-        landmarks = new List<Vector3>();
-    }
-
-    public HandGestureLandmarkList(List<Vector3> landmarks)
-    {
-        this.landmarks = landmarks;
-    }
-}
-
-
-[System.Serializable]
-public class HandGestureSample
-{
-    public string gestureName;
-    public string recordDate;
-    public List<HandGestureLandmarkList> landmarkLists;
-
-    public HandGestureSample()
-    {
-        landmarkLists = new List<HandGestureLandmarkList>();
-        recordDate = DateTime.Now.ToString("ddMMyyyy_HHmm");
-    }
-}
 
 public class HandGestureRecorder : MonoBehaviour
 {
     public bool isRecording = false;
     private HandGestureSample recordingSample;
-    public HandGestureRecorderConfigObj configObj;
+    public HandGesturePersistentStorageObj storageObj;
 
     private void Start()
     {
@@ -76,7 +46,7 @@ public class HandGestureRecorder : MonoBehaviour
     //use some kind of file saving?
     private void SaveRecordedLandmarks()
     {
-         this.configObj.SaveToPersistence(
+         this.storageObj.SaveToPersistence(
              this.recordingSample.gestureName + "_" + this.recordingSample.recordDate + ".json", 
              JsonUtility.ToJson(this.recordingSample));
     }
