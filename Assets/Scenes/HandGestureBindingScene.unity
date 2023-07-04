@@ -238,7 +238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -79, y: -1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &638479256
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 673782245}
   - component: {fileID: 673782244}
   m_Layer: 0
-  m_Name: ControlBinder
+  m_Name: HandGestureControlBinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,13 +365,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bindingPersistenceObj: {fileID: 11400000, guid: aef0f8a7d22c9734e987904efcbfaaaa, type: 2}
-  gesturePersistenceObj: {fileID: 11400000, guid: 858770b2e9350984b9444465e924624d, type: 2}
-  leftHandGestureSamples: []
-  rightHandGestureSamples: []
-  index: 0
+  gesturePersistenceObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
   dataInitilizedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1777813851}
+        m_TargetAssemblyTypeName: HandGestureControlBinderUI, Assembly-CSharp
+        m_MethodName: InitUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &673782245
 Transform:
   m_ObjectHideFlags: 0
@@ -380,11 +389,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673782243}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 763.07587, y: -228.65228, z: -3.5227492}
-  m_LocalScale: {x: 11.866713, y: 11.866713, z: 11.866713}
+  m_LocalPosition: {x: 6.0885367, y: 4.2045083, z: 89.70314}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1777813848}
+  m_Father: {fileID: 1368231470}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &705621525
@@ -934,9 +943,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f6090d1595de44d98b644bef3c0f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handGesturePersistentStorageObj: {fileID: 11400000, guid: 858770b2e9350984b9444465e924624d, type: 2}
+  handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
   metric: {fileID: 11400000, guid: c5448df4bf78bcd489942d3de99974b8, type: 2}
-  threshold: 0.5
+  threshold: 0.75
 --- !u!1001 &1096618952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -947,7 +956,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1361790099272809737, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: control
-      value: Release
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2061703816533483649, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: m_Name
@@ -1023,7 +1032,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5673257047888236755, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 139
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5673257047888236755, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1036,6 +1045,10 @@ PrefabInstance:
     - target: {fileID: 5673257047888236755, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879621800880481011, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
+      propertyPath: m_Text
+      value: Ctrl2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1260,7 +1273,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -217, y: -196}
+  m_AnchoredPosition: {x: 221, y: -140}
   m_SizeDelta: {x: 285.425, y: 91.792}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1346375258
@@ -1307,9 +1320,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 673782244}
-        m_TargetAssemblyTypeName: HandGestureControlBinder, Assembly-CSharp
-        m_MethodName: SaveBinding
+      - m_Target: {fileID: 1777813851}
+        m_TargetAssemblyTypeName: HandGestureControlBinderUI, Assembly-CSharp
+        m_MethodName: SaveData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1520,6 +1533,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1077719012}
+  - {fileID: 673782245}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1793,7 +1807,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 673782245}
   - {fileID: 408494208}
   - {fileID: 1346375257}
   m_Father: {fileID: 705621526}
@@ -1801,8 +1814,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -782.99994, y: 213}
-  m_SizeDelta: {x: -1659.038, y: -831.365}
+  m_AnchoredPosition: {x: -690.8249, y: 266.67926}
+  m_SizeDelta: {x: -1474.688, y: -938.724}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777813849
 MonoBehaviour:
@@ -1873,7 +1886,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1361790099272809737, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: control
-      value: Pick
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2061703816533483649, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: m_Name
@@ -1962,6 +1975,10 @@ PrefabInstance:
     - target: {fileID: 5673257047888236755, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879621800880481011, guid: cd17ed716e3a51947b15ed04af2e98d0, type: 3}
+      propertyPath: m_Text
+      value: Ctrl1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

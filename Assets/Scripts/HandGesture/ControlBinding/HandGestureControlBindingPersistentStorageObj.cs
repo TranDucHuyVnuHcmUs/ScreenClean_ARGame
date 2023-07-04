@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -6,9 +7,10 @@ using UnityEngine;
 public class HandGestureControlBindingPersistentStorageObj : ScriptableObject
 {
     public string fileName = "controlBinding.json";
+    public List<string> controlNames;
     public HandGestureControlBindingData bindingData;
     public HandGesturePersistentStorageObj handGesturePersistentStorageObj;
-    private bool isInitialized = false;
+    public bool isInitialized = false;
 
     public void SaveToPersistence()
     {
@@ -43,7 +45,8 @@ public class HandGestureControlBindingPersistentStorageObj : ScriptableObject
     private void InitializeNewFile()
     {
         this.bindingData = new HandGestureControlBindingData();
-        this.bindingData.bindings.Add(new HandGestureControlBind("Pick", null, null));
+        for (int i = 0; i < this.controlNames.Count; i++)
+            this.bindingData.bindings.Add(new HandGestureControlBind(this.controlNames[i], null, null));
         SaveToPersistence();
     }
 }

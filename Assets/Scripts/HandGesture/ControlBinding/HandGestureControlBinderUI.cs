@@ -5,26 +5,38 @@ using System.Collections.Generic;
 public class HandGestureControlBinderUI : MonoBehaviour
 {
     public HandGestureControlBinder binder;
-    public List<BindingUI> bindingUIs;
+    public List<HandGestureBindingUI> bindingUIs;
 
 
-    private void Start()
+    public void InitUI()
     {
-        binder.dataInitilizedEvent.AddListener(InitUI);   
+        Initialize(binder.GetControls(), binder.GetHandGestures(true), binder.GetHandGestures(false));
     }
 
-
-    private void InitUI()
+    public void ChangeBinding(string control, int index, bool isLeft)
     {
-        Initialize(binder.leftHandGestureSamples, binder.rightHandGestureSamples);
+        binder.ChangeBinding(control, index-1, isLeft);
     }
 
-    public void Initialize(List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples)
+    public void ChangeBinding(string control, int leftIndex, int rightIndex)
     {
-        foreach (var bindingUI in  bindingUIs)
+        binder.ChangeBinding(control, leftIndex - 1, true);
+        binder.ChangeBinding(control, rightIndex - 1, false);
+    }
+
+    public void Initialize(List<string> controls, List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples)
+    {
+
+        //foreach (var bindingUI in bindingUIs)
+        for (int i = 0; i < bindingUIs.Count; i++)
         {
-            bindingUI.Initialize(leftSamples, rightSamples);
+            bindingUIs[i].Initialize(this, controls[i], leftSamples, rightSamples);
         }
+    }
+
+    public void SaveData()
+    {
+        binder.SaveBinding();
     }
 
 }

@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: New Hand Gesture Control Binding Persistent Storage Obj
   m_EditorClassIdentifier: 
   fileName: controlBinding.json
+  controlNames:
+  - Pick
+  - Release
   bindingData:
     bindings: []
   handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
+  isInitialized: 0

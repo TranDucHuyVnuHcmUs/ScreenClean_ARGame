@@ -99,6 +99,7 @@ public class HandGesturePersistentStorageObj : ScriptableObject
     }
     public HandGestureSample ReadFromPersistence(string absPath)
     {
+        if (absPath == null || absPath == "") return null;
         using (StreamReader sr = new StreamReader(absPath))
             return JsonUtility.FromJson<HandGestureSample>(sr.ReadToEnd());
     }
