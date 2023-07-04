@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using UnityEngine;
-
+using System.Linq;
 
 [System.Serializable]
 public class HandGestureLandmarkList
@@ -40,6 +40,11 @@ public class HandGesturePersistentStorageObj : ScriptableObject
 {
     public string folderPath;       // append with persistent datapath on the beginning of the path.
 
+    private string GetPath()
+    {
+        return Path.Combine(Application.persistentDataPath, folderPath);
+    }
+
     private void CreateFolder()
     {
         string fpath = Path.Combine(Application.persistentDataPath, folderPath);
@@ -48,24 +53,47 @@ public class HandGesturePersistentStorageObj : ScriptableObject
         }
     }
 
-    public void SaveToPersistence(string filename, string content)
+    public void SaveToPersistence(string filename, HandGestureSample content)
     {
         CreateFolder();
         string path = Path.Combine(Application.persistentDataPath, folderPath, filename);
         using (StreamWriter  sw = new StreamWriter(path))
         {
-            sw.WriteLine(content);
+            sw.WriteLine(JsonUtility.ToJson(content));
             sw.Close();
             Debug.Log("A new hand gesture saved at: " + path);
         }
     }
 
-    public string ReadFromPersistence(string filename)
+    public HandGestureSample ReadFromPersistence(string filename)
     {
         string path = Path.Combine(Application.persistentDataPath, folderPath, filename);
         using (StreamReader sr = new StreamReader(path))
         {
-            return sr.ReadToEnd();
+            return JsonUtility.FromJson<HandGestureSample>(sr.ReadToEnd());
         }
+    }
+    private HandGestureSample ReadFromPersistence(string path, bool absolutePath)
+    {
+        using (StreamReader sr = new StreamReader(path))
+        {
+            return JsonUtility.FromJson<HandGestureSample>(sr.ReadToEnd());
+        }
+    }
+
+    public List<string> GetAllSamplePaths()
+    {
+        return Directory.GetFiles(GetPath()).ToList();
+    }
+
+    public List<HandGestureSample> ReadAllSample()
+    {
+        var filePaths = Directory.GetFiles(GetPath());
+        List<HandGestureSample> samples = new List<HandGestureSample>();
+        for (int i = 0; i < filePaths.Length; i++) {
+            samples.Add(ReadFromPersistence(filePaths[i], true));
+        }
+        Debug.Log(samples.ToArray().ToString());
+        return samples;
     }
 }

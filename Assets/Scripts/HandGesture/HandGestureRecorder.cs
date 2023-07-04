@@ -48,7 +48,7 @@ public class HandGestureRecorder : MonoBehaviour
     {
          this.storageObj.SaveToPersistence(
              this.recordingSample.gestureName + "_" + this.recordingSample.recordDate + ".json", 
-             JsonUtility.ToJson(this.recordingSample));
+             this.recordingSample);
     }
 
     private HandGestureLandmarkList NormalizeLandmark(NormalizedLandmarkList landmarks)
