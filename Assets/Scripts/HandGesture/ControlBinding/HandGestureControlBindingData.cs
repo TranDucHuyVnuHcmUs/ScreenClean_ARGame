@@ -5,13 +5,14 @@ using System.Collections.Generic;
 public class HandGestureControlBind
 {
     public string key;
-    public string gesturePath;
-    [NonSerialized] public HandGestureSample gesture;
+    public string leftGesturePath, rightGesturePath;
+    [NonSerialized] public HandGestureSample leftGesture, rightGesture;
 
-    public HandGestureControlBind(string key, string gesturePath)
+    public HandGestureControlBind(string key, string leftGesturePath, string rightGesturePath)
     {
         this.key = key;
-        this.gesturePath = gesturePath;
+        this.leftGesturePath = leftGesturePath;
+        this.rightGesturePath = rightGesturePath;
     }
 }
 

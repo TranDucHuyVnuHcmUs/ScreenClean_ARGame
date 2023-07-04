@@ -32,7 +32,8 @@ public class HandGestureControlBindingPersistentStorageObj : ScriptableObject
         using (StreamReader reader = new StreamReader(path)){
             this.bindingData = JsonUtility.FromJson<HandGestureControlBindingData>(reader.ReadToEnd());
             for (int i = 0; i < this.bindingData.bindings.Count; i++) {
-                bindingData.bindings[i].gesture = handGesturePersistentStorageObj.ReadFromPersistence(bindingData.bindings[i].gesturePath);
+                bindingData.bindings[i].leftGesture = handGesturePersistentStorageObj.ReadFromPersistence(bindingData.bindings[i].leftGesturePath);
+                bindingData.bindings[i].rightGesture = handGesturePersistentStorageObj.ReadFromPersistence(bindingData.bindings[i].rightGesturePath);
             }
         }
         isInitialized = true;
@@ -42,7 +43,7 @@ public class HandGestureControlBindingPersistentStorageObj : ScriptableObject
     private void InitializeNewFile()
     {
         this.bindingData = new HandGestureControlBindingData();
-        this.bindingData.bindings.Add(new HandGestureControlBind("Pick", null));
+        this.bindingData.bindings.Add(new HandGestureControlBind("Pick", null, null));
         SaveToPersistence();
     }
 }

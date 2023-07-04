@@ -1,43 +1,51 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HandGestureControlBinder : MonoBehaviour
 {
-    public HandGestureControlBinderUI ui;
     public HandGestureControlBindingPersistentStorageObj bindingPersistenceObj;     //obj with persistence feature
     public HandGesturePersistentStorageObj gesturePersistenceObj;
 
-    private List<HandGestureSample> handGestureSamples;
-    private List<string> handGesturePaths;
+    public List<HandGestureSample> leftHandGestureSamples, rightHandGestureSamples;
+    private List<string> leftHandGesturePaths, rightHandGesturePaths;
+
+    private Dictionary<string, int> nameToIndexControlDict;
     
     public int index = 0;
+
+    public UnityEvent dataInitilizedEvent;
 
 
     private void Start()
     {
-        ui.pickKeyGestureDropdown.onValueChanged.AddListener(ChangeBinding);
         Initialize();
-        InitUI();
-        ChangeBinding(this.index);            // set the default index
+        dataInitilizedEvent.Invoke();
     }
 
-    private void InitUI()
-    {
-        ui.Initialize(this.handGestureSamples);
-    }
 
     public void Initialize()
     {
-        this.handGestureSamples = gesturePersistenceObj.ReadAllSample();
-        this.handGesturePaths = gesturePersistenceObj.GetAllSamplePaths();
+        this.leftHandGestureSamples = gesturePersistenceObj.ReadSamples(true);
+        this.leftHandGesturePaths = gesturePersistenceObj.GetSamplePaths(true);
+        this.rightHandGestureSamples = gesturePersistenceObj.ReadSamples(false);
+        this.rightHandGesturePaths = gesturePersistenceObj.GetSamplePaths(false);
         bindingPersistenceObj.ReadFromPersistence();
     }    
 
-    public void ChangeBinding(int index)
+    public void ChangeBinding(string control, int index, bool isLeft)
     {
-        bindingPersistenceObj.bindingData.bindings[0].gesturePath = this.handGesturePaths[index];
+        int cid = this.nameToIndexControlDict[control];
+        if (isLeft)
+        {
+            bindingPersistenceObj.bindingData.bindings[cid].leftGesturePath = this.leftHandGesturePaths[index];
+        } else
+        {
+            bindingPersistenceObj.bindingData.bindings[cid].rightGesturePath = this.rightHandGesturePaths[index];
+        }
     }
 
     public void SaveBinding()

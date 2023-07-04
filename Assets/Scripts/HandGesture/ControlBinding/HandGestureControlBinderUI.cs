@@ -4,17 +4,27 @@ using System.Collections.Generic;
 
 public class HandGestureControlBinderUI : MonoBehaviour
 {
-    public Dropdown pickKeyGestureDropdown;
+    public HandGestureControlBinder binder;
+    public List<BindingUI> bindingUIs;
 
-    public void Initialize(List<HandGestureSample> samples)
+
+    private void Start()
     {
-        var options = new List<Dropdown.OptionData>();
-        foreach (var sample in samples)
-        {
-            options.Add(new Dropdown.OptionData(sample.gestureName));
-        }
+        binder.dataInitilizedEvent.AddListener(InitUI);   
+    }
 
-        pickKeyGestureDropdown.AddOptions(options);
+
+    private void InitUI()
+    {
+        Initialize(binder.leftHandGestureSamples, binder.rightHandGestureSamples);
+    }
+
+    public void Initialize(List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples)
+    {
+        foreach (var bindingUI in  bindingUIs)
+        {
+            bindingUI.Initialize(leftSamples, rightSamples);
+        }
     }
 
 }

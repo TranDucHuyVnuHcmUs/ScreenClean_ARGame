@@ -1,6 +1,7 @@
 using Mediapipe;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,6 +29,9 @@ public class HandGestureRecognizer : MonoBehaviour
     public HandGestureCompareMetric metric;     // Strategy pattern
     public float threshold;
 
+    private List<NormalizedLandmarkList> currentNormalizedLandmarkLists;
+    private List<ClassificationList> handednessLists;
+
     [Header("Events")]
     public HandGestureRecognizeDataListUnityEvent handGestureRecognizedEvent;
 
@@ -41,42 +45,85 @@ public class HandGestureRecognizer : MonoBehaviour
         handGesturePersistentStorageObj.Initialize();           // ask it to fill the data
     }
 
-    internal HandGestureRecognizeData RecognizeLandmarks(NormalizedLandmarkList normalizedLandmarkList)
+    internal HandGestureRecognizeData RecognizeLandmarks(NormalizedLandmarkList normalizedLandmarkList, 
+        ClassificationList handednessList)
     {
         float maxScore = -999;
         int index = -1;
-        for (int i = 0; i < handGesturePersistentStorageObj.samples.Count; i++) 
+
+        bool isLeft = IsHandLeft(handednessList.Classification);
+
+        List<HandGestureSample> samples = (isLeft) ? handGesturePersistentStorageObj.leftSamples : handGesturePersistentStorageObj.rightSamples;
+        for (int i = 0; i < samples.Count; i++)
         {
-            var sample = handGesturePersistentStorageObj.samples[i];
+            var sample = samples[i];
             var score = this.metric.Score(sample, normalizedLandmarkList);
-            if (maxScore < score) {
+            if (maxScore < score)
+            {
                 index = i;
                 maxScore = score;
             }
-            
         }
+
         //handGestureRecognizedEvent.Invoke(handGesturePersistentStorageObj.samples[index].gestureName);
         if (maxScore >= threshold)
-            return new HandGestureRecognizeData(handGesturePersistentStorageObj.samples[index], this.metric, maxScore);
+            return new HandGestureRecognizeData(samples[index], this.metric, maxScore);
         else return new HandGestureRecognizeData(null, this.metric, maxScore);
     }
 
-    public List<HandGestureRecognizeData> RecognizeGestureSync(List<NormalizedLandmarkList> landmarksList)
+    private bool IsHandLeft(IList<Classification> handedness)
+    {
+        if (handedness == null || handedness.Count == 0 || handedness[0].Label == "Left")
+        {
+            return true;
+        }
+        else if (handedness[0].Label == "Right")
+        {
+            return false;
+        }
+        else return false;
+    }
+
+    public List<HandGestureRecognizeData> RecognizeGestureReturn(List<NormalizedLandmarkList> landmarksLists,
+        List<ClassificationList> handednessLists)
     {
         List<HandGestureRecognizeData> recognizedSamples = new List<HandGestureRecognizeData>();
-        foreach (var landmarks in landmarksList)
+        for (int i = 0; i < landmarksLists.Count; i++)
         {
-            recognizedSamples.Add(RecognizeLandmarks(landmarks));
+            recognizedSamples.Add(RecognizeLandmarks(landmarksLists[i], handednessLists[i]));
         }
         return recognizedSamples;
     }
 
-    internal void GetLandmarks(List<NormalizedLandmarkList> landmarksList)
+    public void SetNormalizedLandmarkList(List<NormalizedLandmarkList> normalizedLandmarkList)
+    {
+        this.currentNormalizedLandmarkLists = normalizedLandmarkList;
+        if (this.handednessLists != null)
+        {
+            RecognizeGesture(this.currentNormalizedLandmarkLists, this.handednessLists);
+            //reset
+            this.currentNormalizedLandmarkLists = null;
+            this.handednessLists = null;
+        }
+    }
+
+    public void SetHandednessList(List<ClassificationList> handednessLists)
+    {
+        this.handednessLists = handednessLists;
+        if (this.currentNormalizedLandmarkLists != null)
+        {
+            RecognizeGesture(this.currentNormalizedLandmarkLists, this.handednessLists);
+            //reset
+            this.currentNormalizedLandmarkLists = null;
+            this.handednessLists = null;
+        }
+    }
+
+    internal void RecognizeGesture(List<NormalizedLandmarkList> landmarksList, List<ClassificationList> handednessLists)
     {
         List<HandGestureRecognizeData> recognizedSamples = new List<HandGestureRecognizeData>();
-        foreach (var landmarks in landmarksList)
-        {
-            recognizedSamples.Add(RecognizeLandmarks(landmarks));
+        for (int i = 0; i < landmarksList.Count; i++) {
+            recognizedSamples.Add(RecognizeLandmarks(landmarksList[i], handednessLists[i]));
         }
         handGestureRecognizedEvent.Invoke(recognizedSamples);
     }

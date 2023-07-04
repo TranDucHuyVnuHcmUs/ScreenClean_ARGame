@@ -88,16 +88,23 @@ namespace Mediapipe.Unity.HandTracking
 
             _handLandmarksAnnotationController.DrawNow(handLandmarks, handedness);
 
-            List<string> labels = new List<string>();
-            if (handGestureRecognizer) {
-                var recognizeData = handGestureRecognizer.RecognizeGestureSync(handLandmarks);
-                foreach (var data in recognizeData) {
-                    string label = (data.recognizedSample != null ? data.recognizedSample.gestureName : "???");
-                    labels.Add(label + ":" + data.score.ToString()); 
+            if (_rectangleWithLabelListAnnotationController)
+            {
+                List<string> labels = new List<string>();
+                if (handGestureRecognizer)
+                {
+                    var recognizeData = handGestureRecognizer.RecognizeGestureReturn(handLandmarks, handedness);
+                    foreach (var data in recognizeData)
+                    {
+                        string label = (data.recognizedSample != null ? data.recognizedSample.gestureName : "???");
+                        labels.Add(label + ":" + data.score.ToString());
+                    }
                 }
-            } else labels = new List<string>(handRectsFromLandmarks.Count);
+                else labels = new List<string>(handRectsFromLandmarks.Count);
 
-            _rectangleWithLabelListAnnotationController.DrawNow(handRectsFromLandmarks, labels);
+                _rectangleWithLabelListAnnotationController.DrawNow(handRectsFromLandmarks, labels);
+            }
+            
         }
 
         private void OnPalmDetectionsOutput(object stream, OutputEventArgs<List<Detection>> eventArgs)
@@ -114,20 +121,27 @@ namespace Mediapipe.Unity.HandTracking
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {
-                handGestureRecorder?.GetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
-                handGestureRecognizer?.GetLandmarks(eventArgs.value);
+                handGestureRecorder?.SetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
+                //handGestureRecognizer?.RecognizeGesture(eventArgs.value);
+                handGestureRecognizer?.SetNormalizedLandmarkList(eventArgs.value);
             }
         }
 
         private void OnHandRectsFromLandmarksOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
         {
-            //_handRectsFromLandmarksAnnotationController.DrawLater(eventArgs.value);
-            _rectangleWithLabelListAnnotationController.DrawLater(eventArgs.value);
+            
+            _handRectsFromLandmarksAnnotationController?.DrawLater(eventArgs.value);
+            _rectangleWithLabelListAnnotationController?.DrawLater(eventArgs.value);
         }
 
         private void OnHandednessOutput(object stream, OutputEventArgs<List<ClassificationList>> eventArgs)
         {
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
+            if (eventArgs.value != null)
+            {
+                handGestureRecognizer?.SetHandednessList(eventArgs.value);
+                handGestureRecorder?.SetHandedness(eventArgs.value[0].Classification);
+            }
         }
 
         public void OnGestureOutput(List<HandGestureRecognizeData> recognizeDatas)

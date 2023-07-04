@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 public class HandGestureRecorder : MonoBehaviour
 {
     public bool isRecording = false;
+    public bool isLeftHandRecorded = false;
     private HandGestureSample recordingSample;
     public HandGesturePersistentStorageObj storageObj;
 
@@ -17,7 +18,18 @@ public class HandGestureRecorder : MonoBehaviour
         recordingSample = new HandGestureSample();
     }
 
-    internal void GetLandmarks(NormalizedLandmarkList landmarks)
+    public void SetHandedness(IList<Classification> clfs)
+    {
+        this.isLeftHandRecorded = CheckHandedness(clfs);    
+    }
+
+    private bool CheckHandedness(IList<Classification> clfs)
+    {
+        if (clfs == null || clfs.Count == 0 || clfs[0].Label == "Left") return true;
+        else return false;
+    }
+
+    internal void SetLandmarks(NormalizedLandmarkList landmarks)
     {
         if (isRecording)
         {
@@ -26,14 +38,10 @@ public class HandGestureRecorder : MonoBehaviour
         }
     }
 
-    internal void StartRecording()
-    {
-        isRecording = true;
-        recordingSample = new HandGestureSample();
-    }
     internal void StartRecording(string gestureName)
     {
-        StartRecording();
+        isRecording = true;
+        recordingSample = new HandGestureSample(gestureName, this.isLeftHandRecorded);
         recordingSample.gestureName = gestureName;
     }
 
@@ -47,7 +55,7 @@ public class HandGestureRecorder : MonoBehaviour
     private void SaveRecordedLandmarks()
     {
          this.storageObj.SaveToPersistence(
-             this.recordingSample.gestureName + "_" + this.recordingSample.recordDate + ".json", 
+             this.recordingSample.gestureName + ".json", 
              this.recordingSample);
     }
 
