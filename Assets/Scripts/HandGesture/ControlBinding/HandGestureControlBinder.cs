@@ -38,6 +38,11 @@ public class HandGestureControlBinder : MonoBehaviour
          return gesturePersistenceObj.ReadSamples(isLeft);
     }
 
+    public HandGestureControlBindingData GetBindingData()
+    {
+        return bindingPersistenceObj.ReadFromPersistence();
+    }
+
     public void Initialize()
     {
         bindingPersistenceObj.ReadFromPersistence();

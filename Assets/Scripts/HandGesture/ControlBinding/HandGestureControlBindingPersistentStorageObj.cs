@@ -22,7 +22,7 @@ public class HandGestureControlBindingPersistentStorageObj : ScriptableObject
 
     public HandGestureControlBindingData ReadFromPersistence()
     {
-        if (this.isInitialized) return this.bindingData;
+     //   if (this.isInitialized) return this.bindingData;
 
         string path = Path.Combine(Application.persistentDataPath, fileName);
         if (!File.Exists(path))

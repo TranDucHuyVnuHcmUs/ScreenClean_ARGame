@@ -10,7 +10,8 @@ public class HandGestureControlBinderUI : MonoBehaviour
 
     public void InitUI()
     {
-        Initialize(binder.GetControls(), binder.GetHandGestures(true), binder.GetHandGestures(false));
+        Initialize(binder.GetControls(), binder.GetHandGestures(true), binder.GetHandGestures(false),
+            binder.GetBindingData());
     }
 
     public void ChangeBinding(string control, int index, bool isLeft)
@@ -24,13 +25,14 @@ public class HandGestureControlBinderUI : MonoBehaviour
         binder.ChangeBinding(control, rightIndex - 1, false);
     }
 
-    public void Initialize(List<string> controls, List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples)
+    public void Initialize(List<string> controls, List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples,
+        HandGestureControlBindingData bindingData)
     {
 
         //foreach (var bindingUI in bindingUIs)
         for (int i = 0; i < bindingUIs.Count; i++)
         {
-            bindingUIs[i].Initialize(this, controls[i], leftSamples, rightSamples);
+            bindingUIs[i].Initialize(this, controls[i], leftSamples, rightSamples, bindingData.bindings[i]);
         }
     }
 
