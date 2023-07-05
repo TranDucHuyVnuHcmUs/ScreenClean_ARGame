@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class HandGestureFromPersistenceRecognizer : MonoBehaviour
 {
-    public HandGesturePersistentStorageObj handGesturePersistentStorageObj;
+    public HandGesturePersistenceObject handGesturePersistentStorageObj;
     public HandGestureRecognizer recognizer;
 
     private List<NormalizedLandmarkList> currentNormalizedLandmarkLists;

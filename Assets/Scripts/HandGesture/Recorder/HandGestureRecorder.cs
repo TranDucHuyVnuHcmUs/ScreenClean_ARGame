@@ -11,7 +11,7 @@ public class HandGestureRecorder : MonoBehaviour
     public bool isRecording = false;
     public bool isLeftHandRecorded = false;
     private HandGesture recordingSample;
-    public HandGesturePersistentStorageObj storageObj;
+    public HandGesturePersistenceObject storageObj;
 
     private void Start()
     {

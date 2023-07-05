@@ -45,7 +45,7 @@ public class HandGesture
 }
 
 [CreateAssetMenu(menuName = "Persistence/Hand gesture")]
-public class HandGesturePersistentStorageObj : ScriptableObject
+public class HandGesturePersistenceObject : ScriptableObject
 {
     public string folderPath;       // append with persistent datapath on the beginning of the path.
     public List<HandGesture> leftSamples, rightSamples;

@@ -6,10 +6,10 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HandGestureControlBinder : MonoBehaviour
+public class HandGestureActionBinder : MonoBehaviour
 {
-    public HandGestureControlBindingPersistentStorageObj bindingPersistenceObj;     //obj with persistence feature
-    public HandGesturePersistentStorageObj gesturePersistenceObj;
+    public HandGestureInputSystemConfig handGestureInputSystemConfig;
+    public HandGesturePersistenceObject gesturePersistenceObj;
 
     private Dictionary<string, int> nameToIndexControlDict;
     
@@ -27,7 +27,7 @@ public class HandGestureControlBinder : MonoBehaviour
     }
 
     public List<string> GetControls() {
-        return bindingPersistenceObj.controlNames;
+        return handGestureInputSystemConfig.controlNames;
     }
 
     public List<string> GetHandGesturePaths(bool isLeft) {
@@ -38,14 +38,14 @@ public class HandGestureControlBinder : MonoBehaviour
          return gesturePersistenceObj.ReadSamples(isLeft);
     }
 
-    public HandGestureControlBindingData GetBindingData()
+    public HandGestureInputScheme GetBindingData()
     {
-        return bindingPersistenceObj.ReadFromPersistence();
+        return handGestureInputSystemConfig.scheme;
     }
 
     public void Initialize()
     {
-        bindingPersistenceObj.ReadFromPersistence();
+        handGestureInputSystemConfig.Load();
 
         var controls = GetControls();
         for (int i = 0; i < controls.Count; i++) { 
@@ -61,15 +61,15 @@ public class HandGestureControlBinder : MonoBehaviour
         string p = (index >= 0) ? this.GetHandGesturePaths(isLeft)[index] : null;
         if (isLeft)
         {
-            bindingPersistenceObj.bindingData.bindings[cid].leftGesturePath = p;
+            handGestureInputSystemConfig.scheme.bindings[cid].leftGesturePath = p;
         } else
         {
-            bindingPersistenceObj.bindingData.bindings[cid].rightGesturePath = p;
+            handGestureInputSystemConfig.scheme.bindings[cid].rightGesturePath = p;
         }
     }
 
     public void SaveBinding()
     {
-        this.bindingPersistenceObj.SaveToPersistence();
+        this.handGestureInputSystemConfig.Save();
     }    
 }

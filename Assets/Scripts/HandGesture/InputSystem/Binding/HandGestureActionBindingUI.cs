@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class HandGestureBindingUI : MonoBehaviour
+public class HandGestureActionBindingUI : MonoBehaviour
 {
-    public HandGestureControlBinderUI binderUI;
+    public HandGestureActionBinderUI binderUI;
     public string control;
     public Text controlLabel;
     public Dropdown leftHandGestureDropdown, rightHandGestureDropdown;
@@ -25,8 +25,8 @@ public class HandGestureBindingUI : MonoBehaviour
     }
 
 
-    public void Initialize(HandGestureControlBinderUI binderUI,
-        string controlName, List<HandGesture> leftSamples, List<HandGesture> rightSamples, HandGestureControlBind handGestureControlBind)
+    public void Initialize(HandGestureActionBinderUI binderUI,
+        string controlName, List<HandGesture> leftSamples, List<HandGesture> rightSamples, HandGestureActionBinding handGestureControlBind)
     {
         this.binderUI = binderUI;
         this.control = controlName;

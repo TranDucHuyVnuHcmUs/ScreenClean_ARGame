@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class HandGestureControlBinderUI : MonoBehaviour
+public class HandGestureActionBinderUI : MonoBehaviour
 {
-    public HandGestureControlBinder binder;
-    public List<HandGestureBindingUI> bindingUIs;
+    public HandGestureActionBinder binder;
+    public List<HandGestureActionBindingUI> bindingUIs;
 
 
     public void InitUI()
@@ -26,7 +26,7 @@ public class HandGestureControlBinderUI : MonoBehaviour
     }
 
     public void Initialize(List<string> controls, List<HandGesture> leftSamples, List<HandGesture> rightSamples,
-        HandGestureControlBindingData bindingData)
+        HandGestureInputScheme bindingData)
     {
 
         //foreach (var bindingUI in bindingUIs)
