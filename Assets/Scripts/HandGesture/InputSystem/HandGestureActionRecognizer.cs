@@ -2,6 +2,7 @@
 using Mediapipe;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -21,6 +22,8 @@ public class HandGestureActionRecognizer : MonoBehaviour
     [Header("Events")]
     public HandGestureRecognizeDataListUnityEvent handGestureRecognizedEvent;
 
+    private List<HandGesture> leftSamples, rightSamples;
+
 
     private void Awake()
     {
@@ -31,6 +34,9 @@ public class HandGestureActionRecognizer : MonoBehaviour
     {
         handGestureInputSystem = HandGestureInputSystem.instance;
         handGesturePersistentStorageObj.Initialize();           // ask it to fill the data
+
+        this.leftSamples = PrepareSamples(true);
+        this.rightSamples = PrepareSamples(false);
     }
 
     internal HandGestureAction RecognizeActionFromLandmarks(
@@ -38,8 +44,8 @@ public class HandGestureActionRecognizer : MonoBehaviour
         ClassificationList handednessList)
     {
         bool isLeft = IsHandLeft(handednessList.Classification);
-        var samples = PrepareSamples(isLeft);
         int index = -1;
+        var samples = (isLeft) ? this.leftSamples : this.rightSamples;
         var recogResult = recognizer.RecognizeLandmarksFromSamples( HandGestureUtility.NormalizeLandmark(normalizedLandmarkList), samples, out index);
         
         if (recogResult != null && recogResult.recognizedSample != null) 
@@ -50,9 +56,10 @@ public class HandGestureActionRecognizer : MonoBehaviour
     private List<HandGesture> PrepareSamples(bool isLeft)
     {
         var bindings = HandGestureInputSystem.GetAllBindings();
-        var gestures = new List<HandGesture>(bindings.Count);
+        var gestures = new List<HandGesture>();
         for (int i = 0; i < bindings.Count; i++) {
-            gestures[i] = (isLeft) ? bindings[i].leftGesture : bindings[i].rightGesture;
+            Debug.Log(i);
+            gestures.Add( (isLeft) ? bindings[i].leftGesture : bindings[i].rightGesture);
         }
         return gestures;
     }
