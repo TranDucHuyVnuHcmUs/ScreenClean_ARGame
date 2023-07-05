@@ -730,6 +730,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 841116732}
+    - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 841116735}
+    - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 841116736}
+    - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 841116737}
   m_SourcePrefab: {fileID: 100100000, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
 --- !u!4 &841116728 stripped
 Transform:
@@ -792,6 +801,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827c4431af677e057aa6f14170d0785c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &841116735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841116729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9878192a35e0c74b88b45a28580268b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 936555003}
+  listener: {fileID: 841116732}
+--- !u!114 &841116736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841116729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8114443c4fbe03e42a6b459e537206fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 1368231472}
+  listener: {fileID: 841116732}
+  handGestureFromPersistenceRecognizer: {fileID: 936555003}
+--- !u!114 &841116737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841116729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe8bf760512b214da93e43791d850da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 1368231472}
+  listener: {fileID: 841116731}
 --- !u!1 &936555001
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +854,7 @@ GameObject:
   m_Component:
   - component: {fileID: 936555002}
   - component: {fileID: 936555003}
+  - component: {fileID: 936555004}
   m_Layer: 0
   m_Name: HandGestureRecognizers
   m_TagString: Untagged
@@ -838,6 +891,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
   recognizer: {fileID: 11400000, guid: 3ffe174bf1569214a9e4acd6eba671fb, type: 2}
+--- !u!114 &936555004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936555001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062e3707a06781c48b2ace257355067f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 1368231472}
+  listener: {fileID: 936555003}
 --- !u!1001 &967777217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1378,6 +1445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1368231470}
+  - component: {fileID: 1368231472}
   - component: {fileID: 1368231471}
   - component: {fileID: 1368231467}
   - component: {fileID: 1368231466}
@@ -1544,7 +1612,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368231461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a224508633469c49afb23784339e878, type: 3}
   m_Name: 
@@ -1559,6 +1627,26 @@ MonoBehaviour:
   _rectangleWithLabelListAnnotationController: {fileID: 841116732}
   handGestureRecorder: {fileID: 0}
   handGestureFromPersistenceRecognizer: {fileID: 936555003}
+--- !u!114 &1368231472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368231461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb235659a101404d8923555d8340095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bootstrap: {fileID: 0}
+  screen: {fileID: 841116734}
+  graphRunner: {fileID: 1368231467}
+  textureFramePool: {fileID: 1368231466}
+  runningMode: 0
+  OnStartRunEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1396657535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1860,7 +1948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -690.82495, y: 266.67926}
+  m_AnchoredPosition: {x: -690.8249, y: 266.67926}
   m_SizeDelta: {x: -1474.688, y: -938.724}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777813849

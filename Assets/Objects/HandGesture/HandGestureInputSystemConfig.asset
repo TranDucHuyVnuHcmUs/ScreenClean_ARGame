@@ -16,5 +16,11 @@ MonoBehaviour:
   - Pick
   - Release
   scheme:
-    bindings: []
+    bindings:
+    - action: Pick
+      leftGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Left\leftHold1.json
+      rightGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Right\rightHold1.json
+    - action: Release
+      leftGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Left\leftRelease1.json
+      rightGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Right\rightRelease1.json
   bindingPersistenceObj: {fileID: 11400000, guid: aef0f8a7d22c9734e987904efcbfaaaa, type: 2}

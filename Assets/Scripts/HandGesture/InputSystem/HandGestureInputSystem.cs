@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class HandGestureInputEventArgs
 {
-    public string control;
+    public string action;
 }
 
 public class HandGestureInputEvent : UnityEvent<HandGestureInputEventArgs> { }

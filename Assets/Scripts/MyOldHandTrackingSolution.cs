@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Mediapipe.Unity.HandTracking
 {
-    public class MyHandTrackingSolution : ImageSourceSolution<HandTrackingGraph>
+    public class MyOldHandTrackingSolution : ImageSourceSolution<HandTrackingGraph>
     {
         [SerializeField] private DetectionListAnnotationController _palmDetectionsAnnotationController;
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromPalmDetectionsAnnotationController;

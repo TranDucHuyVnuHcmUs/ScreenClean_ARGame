@@ -9,9 +9,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Mediapipe.Unity.HandTracking
 {
+    //public class DetectionListUnityEvent : UnityEvent<List<Detection>> { }
+    //public class NormalizedRectListUnityEvent : UnityEvent<List<NormalizedRect>> { }
+    //public class NormalizedLandmarkListUnityEvent : UnityEvent<List<NormalizedLandmarkList>> { }
+    //public class ClassificationListUnityEvent : UnityEvent<List<ClassificationList>> { }
+
+
     public class MyHandGestureSolution : ImageSourceSolution<HandTrackingGraph>
     {
         [Header("Annotation controllers")]
@@ -22,6 +29,15 @@ namespace Mediapipe.Unity.HandTracking
         [Header("Hand gesture workers")]
         public HandGestureRecorder handGestureRecorder;
         public HandGestureFromPersistenceRecognizer handGestureFromPersistenceRecognizer;
+
+        //events
+        [Header("Events")]
+        public DetectionListUnityEvent OnPalmDetectionOutputEvent;
+        public NormalizedRectListUnityEvent OnPalmDetectionsRectsOutputEvent;
+        public NormalizedLandmarkListUnityEvent OnHandLandmarksOutputEvent;
+        public NormalizedRectListUnityEvent OnHandLandmarksRectsOutputEvent;
+        public ClassificationListUnityEvent OnHandednessOutputEvent;
+
 
         public HandTrackingGraph.ModelComplexity modelComplexity
         {
@@ -52,10 +68,10 @@ namespace Mediapipe.Unity.HandTracking
             if (!runningMode.IsSynchronous())
             {
                 graphRunner.OnPalmDetectectionsOutput += OnPalmDetectionsOutput;
-                graphRunner.OnHandRectsFromPalmDetectionsOutput += OnHandRectsFromPalmDetectionsOutput;
+                graphRunner.OnHandRectsFromPalmDetectionsOutput += OnPalmDetectionsRectsOutput;
                 graphRunner.OnHandLandmarksOutput += OnHandLandmarksOutput;
                 // TODO: render HandWorldLandmarks annotations
-                graphRunner.OnHandRectsFromLandmarksOutput += OnHandRectsFromLandmarksOutput;
+                graphRunner.OnHandRectsFromLandmarksOutput += OnHandLandmarksRectsOutput;
                 graphRunner.OnHandednessOutput += OnHandednessOutput;
             }
 
@@ -113,15 +129,17 @@ namespace Mediapipe.Unity.HandTracking
 
         private void OnPalmDetectionsOutput(object stream, OutputEventArgs<List<Detection>> eventArgs)
         {
+            this.OnPalmDetectionOutputEvent.Invoke(eventArgs.value);
         }
 
-        private void OnHandRectsFromPalmDetectionsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
+        private void OnPalmDetectionsRectsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
         {
+            this.OnPalmDetectionsRectsOutputEvent.Invoke(eventArgs.value);
         }
 
         private void OnHandLandmarksOutput(object stream, OutputEventArgs<List<NormalizedLandmarkList>> eventArgs)
-
         {
+            this.OnHandLandmarksOutputEvent.Invoke(eventArgs.value);
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {
@@ -131,15 +149,16 @@ namespace Mediapipe.Unity.HandTracking
             }
         }
 
-        private void OnHandRectsFromLandmarksOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
+        private void OnHandLandmarksRectsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
         {
-            
+            this.OnHandLandmarksRectsOutputEvent.Invoke(eventArgs.value);
             _handRectsFromLandmarksAnnotationController?.DrawLater(eventArgs.value);
             _rectangleWithLabelListAnnotationController?.DrawLater(eventArgs.value);
         }
 
         private void OnHandednessOutput(object stream, OutputEventArgs<List<ClassificationList>> eventArgs)
         {
+            this.OnHandednessOutputEvent.Invoke(eventArgs.value);
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {

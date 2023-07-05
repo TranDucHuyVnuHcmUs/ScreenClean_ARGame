@@ -591,6 +591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543978446}
   - component: {fileID: 543978447}
+  - component: {fileID: 543978448}
   m_Layer: 0
   m_Name: HandGestureRecorder
   m_TagString: Untagged
@@ -628,6 +629,20 @@ MonoBehaviour:
   isRecording: 0
   isLeftHandRecorded: 0
   storageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
+--- !u!114 &543978448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543978444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343189d62f22d8e45ac0627f628931ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 1368231472}
+  listener: {fileID: 543978447}
 --- !u!4 &633404738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5535674424067552597, guid: 26114bc9cccb92454a468ea4d41f400a, type: 3}
@@ -1136,6 +1151,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 841116733}
+    - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 841116735}
   m_SourcePrefab: {fileID: 100100000, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
 --- !u!4 &841116728 stripped
 Transform:
@@ -1173,7 +1191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   annotation: {fileID: 1465467706}
-  _visualizeZ: 0
+  _visualizeZ: 1
 --- !u!114 &841116732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,6 +1230,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827c4431af677e057aa6f14170d0785c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &841116735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841116729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe8bf760512b214da93e43791d850da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 1368231472}
+  listener: {fileID: 841116731}
 --- !u!1 &1005045669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,15 +1645,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1368231470}
-  - component: {fileID: 1368231471}
+  - component: {fileID: 1368231472}
   - component: {fileID: 1368231467}
   - component: {fileID: 1368231466}
   - component: {fileID: 1368231465}
   - component: {fileID: 1368231464}
   - component: {fileID: 1368231463}
   - component: {fileID: 1368231462}
+  - component: {fileID: 1368231471}
   m_Layer: 0
-  m_Name: Solution (1)
+  m_Name: MyHandTrackingSolution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1777,7 +1810,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368231461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a224508633469c49afb23784339e878, type: 3}
   m_Name: 
@@ -1791,7 +1824,27 @@ MonoBehaviour:
   _handRectsFromLandmarksAnnotationController: {fileID: 841116730}
   _rectangleWithLabelListAnnotationController: {fileID: 0}
   handGestureRecorder: {fileID: 543978447}
-  handGestureRecognizer: {fileID: 0}
+  handGestureFromPersistenceRecognizer: {fileID: 0}
+--- !u!114 &1368231472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368231461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb235659a101404d8923555d8340095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bootstrap: {fileID: 0}
+  screen: {fileID: 841116734}
+  graphRunner: {fileID: 1368231467}
+  textureFramePool: {fileID: 1368231466}
+  runningMode: 0
+  OnStartRunEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1465467705
 PrefabInstance:
   m_ObjectHideFlags: 0

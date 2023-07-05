@@ -22,6 +22,11 @@ public class HandGestureRecorder : MonoBehaviour
     {
         this.isLeftHandRecorded = CheckHandedness(clfs);    
     }
+    public void SetHandednessFromList(IList<ClassificationList> clfss)
+    {
+        if (clfss == null || clfss.Count == 0) return;
+        SetHandedness(clfss[0].Classification);
+    }
 
     private bool CheckHandedness(IList<Classification> clfs)
     {
@@ -29,6 +34,11 @@ public class HandGestureRecorder : MonoBehaviour
         else return false;
     }
 
+    internal void SetLandmarks(List<NormalizedLandmarkList> landmarksLists)
+    {
+        if (landmarksLists == null) return;
+        SetLandmarks(landmarksLists[0]);
+    }
     internal void SetLandmarks(NormalizedLandmarkList landmarks)
     {
         if (isRecording)
