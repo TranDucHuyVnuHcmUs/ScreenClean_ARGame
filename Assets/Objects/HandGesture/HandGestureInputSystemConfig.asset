@@ -12,15 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efad9d32df6955d468218782547e30d0, type: 3}
   m_Name: HandGestureInputSystemConfig
   m_EditorClassIdentifier: 
-  controlNames:
-  - Pick
-  - Release
+  actions: 010000000200000003000000
   scheme:
-    bindings:
-    - action: Pick
-      leftGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Left\leftHold1.json
-      rightGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Right\rightHold1.json
-    - action: Release
-      leftGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Left\leftRelease1.json
-      rightGesturePath: C:/Users/Huy/AppData/LocalLow/tdhuy/ScreenCleanARGame\HandGestures\Right\rightRelease1.json
+    bindings: []
   bindingPersistenceObj: {fileID: 11400000, guid: aef0f8a7d22c9734e987904efcbfaaaa, type: 2}

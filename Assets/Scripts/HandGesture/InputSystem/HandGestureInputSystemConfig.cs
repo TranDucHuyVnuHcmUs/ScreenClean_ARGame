@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HandGestureInputSystemConfig",menuName = "Input/Hand gesture/Config")]
 public class HandGestureInputSystemConfig : ScriptableObject
 {
-    public List<string> controlNames;
+    public List<HandGestureAction> actions;
     public HandGestureInputScheme scheme;
     public HandGestureInputSchemePersistenceObject bindingPersistenceObj;
     
@@ -14,7 +14,7 @@ public class HandGestureInputSystemConfig : ScriptableObject
     {
         this.scheme = bindingPersistenceObj.ReadFromPersistence();
         if (scheme == null)
-            this.scheme = bindingPersistenceObj.InitializeNewFile(this.controlNames);
+            this.scheme = bindingPersistenceObj.InitializeNewFile(this.actions);
     }
 
     internal void Save()

@@ -36,11 +36,11 @@ public class HandGestureInputSchemePersistenceObject : ScriptableObject
         return scheme;
     }
 
-    public HandGestureInputScheme InitializeNewFile(List<string> controls)
+    public HandGestureInputScheme InitializeNewFile(List<HandGestureAction> actions)
     {
         var scheme = new HandGestureInputScheme();
-        for (int i = 0; i < controls.Count; i++)
-            scheme.bindings.Add(new HandGestureActionBinding(controls[i], null, null));
+        for (int i = 0; i < actions.Count; i++)
+            scheme.bindings.Add(new HandGestureActionBinding(actions[i], null, null));
         SaveToPersistence(scheme);
         return scheme;
     }

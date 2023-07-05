@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   binderUI: {fileID: 0}
-  control: 
+  action: 0
   controlLabel: {fileID: 8879621800880481011}
   leftHandGestureDropdown: {fileID: 9095867797510485931}
   rightHandGestureDropdown: {fileID: 2140607569386725054}
@@ -2305,7 +2305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125.645, y: 0}
+  m_AnchoredPosition: {x: -71, y: 0}
   m_SizeDelta: {x: 157.073, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &419212435858555696

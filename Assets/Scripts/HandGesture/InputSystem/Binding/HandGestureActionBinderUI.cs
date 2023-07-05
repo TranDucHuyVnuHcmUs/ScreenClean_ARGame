@@ -10,29 +10,29 @@ public class HandGestureActionBinderUI : MonoBehaviour
 
     public void InitUI()
     {
-        Initialize(binder.GetControls(), binder.GetHandGestures(true), binder.GetHandGestures(false),
+        Initialize(binder.GetActions(), binder.GetHandGestures(true), binder.GetHandGestures(false),
             binder.GetBindingData());
     }
 
-    public void ChangeBinding(string control, int index, bool isLeft)
+    public void ChangeBinding(HandGestureAction action, int index, bool isLeft)
     {
-        binder.ChangeBinding(control, index-1, isLeft);
+        binder.ChangeBinding(action, index-1, isLeft);
     }
 
-    public void ChangeBinding(string control, int leftIndex, int rightIndex)
+    public void ChangeBinding(HandGestureAction action, int leftIndex, int rightIndex)
     {
-        binder.ChangeBinding(control, leftIndex - 1, true);
-        binder.ChangeBinding(control, rightIndex - 1, false);
+        binder.ChangeBinding(action, leftIndex - 1, true);
+        binder.ChangeBinding(action, rightIndex - 1, false);
     }
 
-    public void Initialize(List<string> controls, List<HandGesture> leftSamples, List<HandGesture> rightSamples,
+    public void Initialize(List<HandGestureAction> actions, List<HandGesture> leftSamples, List<HandGesture> rightSamples,
         HandGestureInputScheme bindingData)
     {
 
         //foreach (var bindingUI in bindingUIs)
         for (int i = 0; i < bindingUIs.Count; i++)
         {
-            bindingUIs[i].Initialize(this, controls[i], leftSamples, rightSamples, bindingData.bindings[i]);
+            bindingUIs[i].Initialize(this, actions[i], leftSamples, rightSamples, bindingData.bindings[i]);
         }
     }
 

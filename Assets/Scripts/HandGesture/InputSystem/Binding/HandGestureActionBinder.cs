@@ -11,14 +11,14 @@ public class HandGestureActionBinder : MonoBehaviour
     public HandGestureInputSystemConfig handGestureInputSystemConfig;
     public HandGesturePersistenceObject gesturePersistenceObj;
 
-    private Dictionary<string, int> nameToIndexControlDict;
+    private Dictionary<HandGestureAction, int> actionToIndexDict;
     
     public UnityEvent dataInitilizedEvent;
 
 
     private void Awake()
     {
-        nameToIndexControlDict = new Dictionary<string, int>();
+        actionToIndexDict = new Dictionary<HandGestureAction, int>();
     }
 
     private void Start()
@@ -26,8 +26,8 @@ public class HandGestureActionBinder : MonoBehaviour
         Initialize();
     }
 
-    public List<string> GetControls() {
-        return handGestureInputSystemConfig.controlNames;
+    public List<HandGestureAction> GetActions() {
+        return handGestureInputSystemConfig.actions;
     }
 
     public List<string> GetHandGesturePaths(bool isLeft) {
@@ -47,17 +47,17 @@ public class HandGestureActionBinder : MonoBehaviour
     {
         handGestureInputSystemConfig.Load();
 
-        var controls = GetControls();
+        var controls = GetActions();
         for (int i = 0; i < controls.Count; i++) { 
-            nameToIndexControlDict[controls[i]] = i; 
+            actionToIndexDict[ controls[i]] = i; 
         }
 
         dataInitilizedEvent.Invoke();
     }    
 
-    public void ChangeBinding(string control, int index, bool isLeft)
+    public void ChangeBinding(HandGestureAction action, int index, bool isLeft)
     {
-        int cid = this.nameToIndexControlDict[control];
+        int cid = this.actionToIndexDict[action];
         string p = (index >= 0) ? this.GetHandGesturePaths(isLeft)[index] : null;
         if (isLeft)
         {
@@ -71,5 +71,10 @@ public class HandGestureActionBinder : MonoBehaviour
     public void SaveBinding()
     {
         this.handGestureInputSystemConfig.Save();
-    }    
+    }
+
+    internal void ChangeBinding(object control, int v, bool isLeft)
+    {
+        throw new NotImplementedException();
+    }
 }

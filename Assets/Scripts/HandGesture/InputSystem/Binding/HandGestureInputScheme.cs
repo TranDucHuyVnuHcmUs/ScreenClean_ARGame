@@ -4,11 +4,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class HandGestureActionBinding
 {
-    public string action;
+    public HandGestureAction action;
     public string leftGesturePath, rightGesturePath;
     [NonSerialized] public HandGesture leftGesture, rightGesture;
 
-    public HandGestureActionBinding(string action, string leftGesturePath, string rightGesturePath)
+    public HandGestureActionBinding(HandGestureAction action, string leftGesturePath, string rightGesturePath)
     {
         this.action = action;
         this.leftGesturePath = leftGesturePath;
@@ -29,9 +29,9 @@ public class HandGestureInputScheme
         bindings = new List<HandGestureActionBinding>();
     }
 
-    public List<string> GetActions()
+    public List<HandGestureAction> GetActions()
     {
-        var actions = new List<string>();
+        var actions = new List<HandGestureAction>();
         foreach (var binding in bindings) { actions.Add(binding.action); }
         return actions;
     }

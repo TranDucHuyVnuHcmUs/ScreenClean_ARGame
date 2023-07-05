@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class HandGestureActionBindingUI : MonoBehaviour
 {
     public HandGestureActionBinderUI binderUI;
-    public string control;
+    public HandGestureAction action;
     public Text controlLabel;
     public Dropdown leftHandGestureDropdown, rightHandGestureDropdown;
 
@@ -26,11 +26,11 @@ public class HandGestureActionBindingUI : MonoBehaviour
 
 
     public void Initialize(HandGestureActionBinderUI binderUI,
-        string controlName, List<HandGesture> leftSamples, List<HandGesture> rightSamples, HandGestureActionBinding handGestureControlBind)
+        HandGestureAction action, List<HandGesture> leftSamples, List<HandGesture> rightSamples, HandGestureActionBinding handGestureControlBind)
     {
         this.binderUI = binderUI;
-        this.control = controlName;
-        this.controlLabel.text = controlName;
+        this.action = action;
+        this.controlLabel.text = HandGestureInputSystemUtils.HandGestureActionToString(action);
         Initialize(leftSamples, leftHandGestureDropdown, ChangeLeftBinding);
         Initialize(rightSamples, rightHandGestureDropdown, ChangeRightBinding);
 
@@ -58,11 +58,11 @@ public class HandGestureActionBindingUI : MonoBehaviour
     /// <param name="index"></param>
     public void ChangeLeftBinding(int index)
     {
-        binderUI.ChangeBinding(this.control, index, true);
+        binderUI.ChangeBinding(this.action, index, true);
     }
 
     public void ChangeRightBinding(int index)
     {
-        binderUI.ChangeBinding(this.control, index, false);
+        binderUI.ChangeBinding(this.action, index, false);
     }
 }
