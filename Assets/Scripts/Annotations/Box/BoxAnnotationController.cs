@@ -8,41 +8,33 @@ using System.Collections.Generic;
 
 namespace Mediapipe.Unity
 {
-    public class BoxAnnotationController : AnnotationController<BoxListAnnotation>
+    public class BoxListAnnotationController : AnnotationController<BoxListAnnotation>
     {
         private IList<NormalizedRect> _currentTarget;
-        public bool isOn = false;
+        private IList<bool> _isOn;
 
-        public void Activate()
-        {
-            this.isOn = true;
-            this.annotation.gameObject.SetActive(isOn);
-        }
-
-        public void Disable()
-        {
-            this.isOn = false;
-            this.annotation.gameObject.SetActive(false);    
-        }
 
         public void DrawNow(IList<NormalizedRect> target)
         {
             _currentTarget = target;
-            if (isOn)
-                SyncNow();
+            SyncNow();
         }
 
         public void DrawLater(IList<NormalizedRect> target)
         {
-            if (isOn)
-                UpdateCurrentTarget(target, ref _currentTarget);
+            UpdateCurrentTarget(target, ref _currentTarget);
+        }
+        public void SetBools(IList<bool> target)
+        {
+            UpdateCurrentTarget(target, ref _isOn);
         }
 
         protected override void SyncNow()
         {
             isStale = false;
-            if (isOn)
-                annotation.Draw(_currentTarget);
+            annotation.Draw(_currentTarget);
+            annotation.SetObjectsActive(_isOn);
         }
+
     }
 }

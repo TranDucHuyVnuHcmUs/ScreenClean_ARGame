@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,6 +63,16 @@ namespace Mediapipe.Unity
                 });
             }
         }
+        internal void SetObjectsActive(IList<bool> targets)
+        {
+            if (ActivateFor(targets))
+            {
+                CallActionForAll(targets, (annotation, target) =>
+                {
+                    if (annotation != null) { annotation.SetObjectActive(target); }
+                });
+            }
+        }
 
         protected override BoxAnnotation InstantiateChild(bool isActive = true)
         {
@@ -86,5 +97,6 @@ namespace Mediapipe.Unity
                 if (rect != null) { rect.SetLineWidth(lineWidth); }
             }
         }
+
     }
 }

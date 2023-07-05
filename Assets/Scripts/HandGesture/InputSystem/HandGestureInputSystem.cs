@@ -24,6 +24,7 @@ public class HandGestureInputEventArgs
     }
 }
 
+public class HandGestureActionListUnityEvent: UnityEvent<List<HandGestureAction>> { }
 public class HandGestureInputEvent : UnityEvent<HandGestureInputEventArgs> { }
 
 public class HandGestureActionEvents
@@ -58,20 +59,27 @@ public class HandGestureInputSystem : MonoBehaviour
 {
     public static HandGestureInputSystem instance;
 
-    private void Awake()
-    {
-        if (instance == null) { instance = this; }
-        else throw new System.Exception("There's already a hand gesture input system!");
-    }
 
     [Header("Data sources")]
     public HandGestureInputSystemConfig configObj;
+
+    private HandGestureActionListUnityEvent actionsRecognizedEvent;
 
     private List<HandGestureAction> actions;
     private Dictionary<HandGestureAction, int> actionIndexes;
     private List<HandGestureActionEvents> actionEvents;
     private bool[] actionStatuses;          // is an action being used or not?
- 
+
+    private void Awake()
+    {
+        if (instance == null) { instance = this; }
+        else throw new System.Exception("There's already a hand gesture input system!");
+
+        actionsRecognizedEvent = new HandGestureActionListUnityEvent();
+        actionEvents = new List<HandGestureActionEvents>();
+        actionIndexes = new Dictionary<HandGestureAction, int>();
+    }
+
     private void Start()
     {
         configObj.Load();
@@ -80,8 +88,6 @@ public class HandGestureInputSystem : MonoBehaviour
 
     private void InitInputActionData()
     {
-        actionEvents = new List<HandGestureActionEvents>();
-        actionIndexes = new Dictionary<HandGestureAction, int>();
         actions = configObj.scheme.GetActions();
 
         actionStatuses = new bool[actions.Count];
@@ -111,6 +117,14 @@ public class HandGestureInputSystem : MonoBehaviour
         return instance.actionIndexes[action];
     }
 
+
+    #region events
+
+    public static void ListenToActionsRecognizedEvent(UnityAction<List<HandGestureAction>> actionsMethod)
+    {
+        instance.actionsRecognizedEvent.AddListener(actionsMethod);
+    }
+
     public static void ListenToActionStartEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
         instance.actionEvents[FindIndex(action)].startEvent.AddListener(method);
@@ -122,6 +136,16 @@ public class HandGestureInputSystem : MonoBehaviour
     public static void ListenToActionStopEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
         instance.actionEvents[FindIndex(action)].stopEvent.AddListener(method);
+    }
+
+    public static void ListenToAction(HandGestureAction action,
+        UnityAction<HandGestureInputEventArgs> startActionEventListener,
+        UnityAction<HandGestureInputEventArgs> keepActionEventListener,
+        UnityAction<HandGestureInputEventArgs> stopActionEventListener)
+    {
+        if (startActionEventListener != null) ListenToActionStartEvent(action, startActionEventListener);
+        if (keepActionEventListener != null) ListenToActionKeepEvent(action, keepActionEventListener);
+        if (stopActionEventListener != null) ListenToActionStopEvent(action, stopActionEventListener);
     }
 
     public static void CallActionStartEvent(HandGestureAction action)
@@ -143,9 +167,11 @@ public class HandGestureInputSystem : MonoBehaviour
         Debug.Log("Action stopped: " + action.ToString());
     }
 
+    #endregion
 
-    public static void UpdateActionStatuses(IList<HandGestureAction> recognizedActions)
+    public static void UpdateActionStatuses(List<HandGestureAction> recognizedActions)
     {
+        CallActionRecognizedEvent(recognizedActions);
         List<int> recognizedActionIndexes = FindIndexes(recognizedActions);
 
         bool[] newActionStatuses = new bool[instance.actionStatuses.Length];
@@ -168,6 +194,11 @@ public class HandGestureInputSystem : MonoBehaviour
                 CallActionStopEvent(instance.actions[i]);
             }
         }
+    }
+
+    private static void CallActionRecognizedEvent(List<HandGestureAction> recognizedActions)
+    {
+        instance?.actionsRecognizedEvent?.Invoke(recognizedActions);
     }
 
     private static List<int> FindIndexes(IList<HandGestureAction> recognizedActions)

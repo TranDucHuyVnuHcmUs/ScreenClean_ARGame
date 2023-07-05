@@ -19,7 +19,7 @@ namespace Mediapipe.Unity.HandTracking
         [SerializeField] private MultiHandLandmarkListAnnotationController _handLandmarksAnnotationController;
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromLandmarksAnnotationController;
 
-        public BoxAnnotationController _boxPalmAnnotationController;
+        public BoxListAnnotationController _boxPalmAnnotationController;
 
         public HandTrackingGraph.ModelComplexity modelComplexity
         {

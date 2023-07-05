@@ -5,6 +5,7 @@
 // https://opensource.org/licenses/MIT.
 
 using Mediapipe.Unity.CoordinateSystem;
+using System;
 using UnityEngine;
 
 using mplt = Mediapipe.LocationData.Types;
@@ -137,5 +138,9 @@ namespace Mediapipe.Unity
                 
         }
 
+        internal void SetObjectActive(bool b)
+        {
+            this.box.SetActive(b);
+        }
     }
 }

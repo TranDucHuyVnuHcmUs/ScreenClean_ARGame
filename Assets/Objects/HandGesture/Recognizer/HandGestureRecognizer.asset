@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oneToManyMetric: {fileID: 11400000, guid: 09ca11d3fa5243d4e9c3ca34646e5cf5, type: 2}
   metric: {fileID: 11400000, guid: c5448df4bf78bcd489942d3de99974b8, type: 2}
-  threshold: 0.75
+  threshold: 0.5

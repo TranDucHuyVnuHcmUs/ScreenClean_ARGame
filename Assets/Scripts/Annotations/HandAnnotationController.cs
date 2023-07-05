@@ -6,13 +6,13 @@ using UnityEngine;
 public class HandAnnotationController : MonoBehaviour
 {
     public MultiHandLandmarkListAnnotation annotation;
-    public BoxAnnotationController boxAnnotationController;
+    public BoxListAnnotationController boxAnnotationController;
     public Color startCleaningColor;
 
     public void StartCleaning()
     {
         //boxAnnotationObj.SetActive(true);
-        boxAnnotationController.Activate();
+        //boxAnnotationController.Activate();
         annotation.SetLeftLandmarkColor(this.startCleaningColor);
         annotation.SetRightLandmarkColor(this.startCleaningColor);
     }
