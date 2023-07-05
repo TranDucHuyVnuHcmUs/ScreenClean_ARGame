@@ -833,7 +833,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 936555001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085988a9943ac843a332f5856052701, type: 3}
+  m_Script: {fileID: 11500000, guid: ad6fc4a7c3584b641b592b6fda4e06d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
@@ -1557,7 +1557,7 @@ MonoBehaviour:
   _handRectsFromLandmarksAnnotationController: {fileID: 0}
   _rectangleWithLabelListAnnotationController: {fileID: 841116732}
   handGestureRecorder: {fileID: 0}
-  handGestureFromDatabaseRecognizer: {fileID: 936555003}
+  handGestureFromPersistenceRecognizer: {fileID: 936555003}
 --- !u!1001 &1465467705
 PrefabInstance:
   m_ObjectHideFlags: 0

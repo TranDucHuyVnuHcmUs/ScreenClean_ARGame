@@ -21,7 +21,7 @@ namespace Mediapipe.Unity.HandTracking
 
         [Header("Hand gesture workers")]
         public HandGestureRecorder handGestureRecorder;
-        public HandGestureFromDatabaseRecognizer handGestureFromDatabaseRecognizer;
+        public HandGestureFromPersistenceRecognizer handGestureFromPersistenceRecognizer;
 
         public HandTrackingGraph.ModelComplexity modelComplexity
         {
@@ -64,7 +64,7 @@ namespace Mediapipe.Unity.HandTracking
             if (_handRectsFromLandmarksAnnotationController)
                 SetupAnnotationController(_handRectsFromLandmarksAnnotationController, imageSource, true);
 
-            this.handGestureFromDatabaseRecognizer?.handGestureRecognizedEvent.AddListener(OnGestureOutput);
+            this.handGestureFromPersistenceRecognizer?.handGestureRecognizedEvent.AddListener(OnGestureOutput);
         }
 
         protected override void AddTextureFrameToInputStream(TextureFrame textureFrame)
@@ -95,9 +95,9 @@ namespace Mediapipe.Unity.HandTracking
             if (_rectangleWithLabelListAnnotationController)
             {
                 List<string> labels = new List<string>();
-                if (handGestureFromDatabaseRecognizer)
+                if (handGestureFromPersistenceRecognizer)
                 {
-                    var recognizeData = handGestureFromDatabaseRecognizer.RecognizeGestureReturn(handLandmarks, handedness);
+                    var recognizeData = handGestureFromPersistenceRecognizer.RecognizeGestureReturn(handLandmarks, handedness);
                     foreach (var data in recognizeData)
                     {
                         string label = (data.recognizedSample != null ? data.recognizedSample.gestureName : "???");
@@ -127,7 +127,7 @@ namespace Mediapipe.Unity.HandTracking
             {
                 handGestureRecorder?.SetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
                 //handGestureRecognizer?.RecognizeGesture(eventArgs.value);
-                handGestureFromDatabaseRecognizer?.SetNormalizedLandmarkList(eventArgs.value);
+                handGestureFromPersistenceRecognizer?.SetNormalizedLandmarkList(eventArgs.value);
             }
         }
 
@@ -143,7 +143,7 @@ namespace Mediapipe.Unity.HandTracking
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {
-                handGestureFromDatabaseRecognizer?.SetHandednessList(eventArgs.value);
+                handGestureFromPersistenceRecognizer?.SetHandednessList(eventArgs.value);
                 handGestureRecorder?.SetHandedness(eventArgs.value[0].Classification);
             }
         }

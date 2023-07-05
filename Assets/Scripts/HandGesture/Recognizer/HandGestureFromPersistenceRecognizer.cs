@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// This recognizer wrap the original for more specific usecase of finding gestures from gesture data persistence.  
 /// </summary>
-public class HandGestureFromDatabaseRecognizer : MonoBehaviour
+public class HandGestureFromPersistenceRecognizer : MonoBehaviour
 {
     public HandGesturePersistentStorageObj handGesturePersistentStorageObj;
     public HandGestureRecognizer recognizer;
