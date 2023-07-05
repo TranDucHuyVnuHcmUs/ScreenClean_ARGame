@@ -38,13 +38,18 @@ public class HandGestureRecognizer : ScriptableObject
 
     public HandGestureRecognizeData RecognizeLandmarksFromSamples(
         HandLandmarkList landmarks, 
-        List<HandGesture> gestures)
+        List<HandGesture> gestures,
+        out int maxScoreIndex)
     {
         int index = -1;
         float maxScore = oneToManyMetric.Score(landmarks, gestures, out index);
 
-        if (maxScore >= threshold)
+        maxScoreIndex = index;
+        if (maxScore >= threshold) {
             return new HandGestureRecognizeData(gestures[index], this.metric, maxScore);
-        else return new HandGestureRecognizeData(null, this.metric, maxScore);
+        }
+        else {
+            return new HandGestureRecognizeData(null, this.metric, maxScore); 
+        }
     }
 }

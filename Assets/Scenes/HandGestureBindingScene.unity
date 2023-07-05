@@ -1757,6 +1757,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1396657536}
   - component: {fileID: 1396657537}
+  - component: {fileID: 1396657538}
+  - component: {fileID: 1396657539}
   m_Layer: 0
   m_Name: HandGestureInputSystem
   m_TagString: Untagged
@@ -1792,7 +1794,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   configObj: {fileID: 11400000, guid: ce84ec293c27c3c468fe902b482a44e3, type: 2}
+--- !u!114 &1396657538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396657535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72aee8fff0f51ad418fd25db92396742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
+  handGestureInputSystem: {fileID: 1396657537}
   recognizer: {fileID: 11400000, guid: 3ffe174bf1569214a9e4acd6eba671fb, type: 2}
+--- !u!114 &1396657539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396657535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0cd81eda595a447aedb6469ec45f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 1368231472}
+  listener: {fileID: 1396657538}
 --- !u!1001 &1465467705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2291,7 +2321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -690.82495, y: 164.23412}
+  m_AnchoredPosition: {x: -690.8249, y: 164.23413}
   m_SizeDelta: {x: -1474.688, y: -733.834}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777813849

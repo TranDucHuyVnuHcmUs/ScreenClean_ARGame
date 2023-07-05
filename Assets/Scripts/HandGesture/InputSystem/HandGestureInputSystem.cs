@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -47,6 +48,7 @@ public class HandGestureActionEvents
     }
 }
 
+
 /// <summary>
 /// This class implement game controls by using hand gesture inputs (through recognizer and recorder)
 /// </summary>
@@ -63,17 +65,16 @@ public class HandGestureInputSystem : MonoBehaviour
     [Header("Data sources")]
     public HandGestureInputSystemConfig configObj;
 
-    public HandGestureRecognizer recognizer;
-
     [Header("Events")]
     private Dictionary<HandGestureAction, HandGestureActionEvents> actionEvents;
 
-    private List<string> inUseControls;         // because we have 2 hands, so we can perform 2 hand gesture input at the same time!
+    private Dictionary<HandGestureAction, bool> actionInUseStatus;         // because we have 2 hands, so we can perform 2 hand gesture input at the same time!
 
     private void Start()
     {
         configObj.Load();
         actionEvents = new Dictionary<HandGestureAction, HandGestureActionEvents>();
+        actionInUseStatus = new Dictionary<HandGestureAction, bool>();
         InitInputEvents();
     }
 
@@ -82,6 +83,7 @@ public class HandGestureInputSystem : MonoBehaviour
         var actions = configObj.scheme.GetActions();
         for (int i = 0; i < actions.Count; i++) {
             actionEvents[actions[i]] = new HandGestureActionEvents();
+            actionInUseStatus[actions[i]] = false;
         }
     }
 
@@ -90,8 +92,15 @@ public class HandGestureInputSystem : MonoBehaviour
         var actions = configObj.scheme.GetActions();
         for (int i = 0; i < actions.Count; i++)
         {
-            actionEvents[actions[i]].keepEvent.Invoke(new HandGestureInputEventArgs(actions[i]));            // update every frame!
+            if (actionInUseStatus[actions[i]])
+                TriggerKeepEvent(actions[i]);            // update every frame!
         }
+    }
+
+    private void TriggerKeepEvent(HandGestureAction action)
+    {
+        actionEvents[action].keepEvent.Invoke(new HandGestureInputEventArgs(action));
+        Debug.Log("Action kept: " + action.ToString());
     }
 
     public static void ListenToActionStartEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
@@ -105,5 +114,40 @@ public class HandGestureInputSystem : MonoBehaviour
     public static void ListenToActionStopEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
         instance.actionEvents[action].stopEvent.AddListener(method);
+    }
+
+    public static void TriggerStartEvent(HandGestureAction action)
+    {
+        if (action == HandGestureAction.UNKNOWN) return;
+        if (!instance.actionEvents.ContainsKey(action)) return;
+        instance.actionInUseStatus[action] = true;
+        instance.actionEvents[action].startEvent.Invoke(new HandGestureInputEventArgs(action));
+        Debug.Log("Action started: " + action.ToString());
+    }
+    public static void TriggerStopEvent(HandGestureAction action)
+    {
+        if (action == HandGestureAction.UNKNOWN) return;
+        if (!instance.actionEvents.ContainsKey(action)) return;
+        instance.actionInUseStatus[action] = false;
+        instance.actionEvents[action].stopEvent.Invoke(new HandGestureInputEventArgs(action));
+        Debug.Log("Action stopped: " + action.ToString());
+    }
+
+    public static void TriggerManyStartEvent(List<HandGestureAction> actions)
+    {
+        foreach (var action in actions)
+            TriggerStartEvent(action);
+    }
+    public static void TriggerManyStopEvent(List<HandGestureAction> actions)
+    {
+        foreach (var action in actions)
+            TriggerStopEvent(action);
+    }
+
+    public static List<HandGestureAction> GetActions() { return instance.configObj.actions; }
+
+    internal static List<HandGestureActionBinding> GetAllBindings()
+    {
+        return instance.configObj.scheme.bindings;
     }
 }

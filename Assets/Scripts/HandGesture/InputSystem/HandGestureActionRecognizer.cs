@@ -1,14 +1,18 @@
 
 using Mediapipe;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 
 /// <summary>
 /// This recognizer wrap the original for more specific usecase of finding gestures from gesture data persistence.  
 /// </summary>
-public class HandGestureFromPersistenceRecognizer : MonoBehaviour
+public class HandGestureActionRecognizer : MonoBehaviour
 {
     public HandGesturePersistenceObject handGesturePersistentStorageObj;
+    public HandGestureInputSystem handGestureInputSystem;
     public HandGestureRecognizer recognizer;
 
     private List<NormalizedLandmarkList> currentNormalizedLandmarkLists;
@@ -17,6 +21,7 @@ public class HandGestureFromPersistenceRecognizer : MonoBehaviour
     [Header("Events")]
     public HandGestureRecognizeDataListUnityEvent handGestureRecognizedEvent;
 
+
     private void Awake()
     {
         handGestureRecognizedEvent = new HandGestureRecognizeDataListUnityEvent();
@@ -24,16 +29,32 @@ public class HandGestureFromPersistenceRecognizer : MonoBehaviour
 
     private void Start()
     {
+        handGestureInputSystem = HandGestureInputSystem.instance;
         handGesturePersistentStorageObj.Initialize();           // ask it to fill the data
     }
 
-    internal HandGestureRecognizeData RecognizeLandmarksFromPersistence(NormalizedLandmarkList normalizedLandmarkList,
+    internal HandGestureAction RecognizeActionFromLandmarks(
+        NormalizedLandmarkList normalizedLandmarkList,
         ClassificationList handednessList)
     {
         bool isLeft = IsHandLeft(handednessList.Classification);
-        List<HandGesture> samples = (isLeft) ? handGesturePersistentStorageObj.leftSamples : handGesturePersistentStorageObj.rightSamples;
+        var samples = PrepareSamples(isLeft);
         int index = -1;
-        return recognizer.RecognizeLandmarksFromSamples( HandGestureUtility.NormalizeLandmark(normalizedLandmarkList), samples, out index);
+        var recogResult = recognizer.RecognizeLandmarksFromSamples( HandGestureUtility.NormalizeLandmark(normalizedLandmarkList), samples, out index);
+        
+        if (recogResult != null && recogResult.recognizedSample != null) 
+            return HandGestureInputSystem.GetActions()[index];
+        else return HandGestureAction.UNKNOWN;
+    }
+
+    private List<HandGesture> PrepareSamples(bool isLeft)
+    {
+        var bindings = HandGestureInputSystem.GetAllBindings();
+        var gestures = new List<HandGesture>(bindings.Count);
+        for (int i = 0; i < bindings.Count; i++) {
+            gestures[i] = (isLeft) ? bindings[i].leftGesture : bindings[i].rightGesture;
+        }
+        return gestures;
     }
 
     private bool IsHandLeft(IList<Classification> handedness)
@@ -49,16 +70,6 @@ public class HandGestureFromPersistenceRecognizer : MonoBehaviour
         else return false;
     }
 
-    public List<HandGestureRecognizeData> RecognizeGestureReturn(List<NormalizedLandmarkList> landmarksLists,
-        List<ClassificationList> handednessLists)
-    {
-        List<HandGestureRecognizeData> recognizedSamples = new List<HandGestureRecognizeData>();
-        for (int i = 0; i < landmarksLists.Count; i++)
-        {
-            recognizedSamples.Add(RecognizeLandmarksFromPersistence(landmarksLists[i], handednessLists[i]));
-        }
-        return recognizedSamples;
-    }
 
     public void SetNormalizedLandmarkList(List<NormalizedLandmarkList> normalizedLandmarkList)
     {
@@ -86,11 +97,15 @@ public class HandGestureFromPersistenceRecognizer : MonoBehaviour
 
     internal void RecognizeGesture(List<NormalizedLandmarkList> landmarksList, List<ClassificationList> handednessLists)
     {
-        List<HandGestureRecognizeData> recognizedSamples = new List<HandGestureRecognizeData>();
-        for (int i = 0; i < landmarksList.Count; i++)
-        {
-            recognizedSamples.Add(RecognizeLandmarksFromPersistence(landmarksList[i], handednessLists[i]));
+        List<HandGestureAction> recognizedActions = new List<HandGestureAction>();
+        for (int i = 0; i < landmarksList.Count; i++) {
+            recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], handednessLists[i]));
         }
-        handGestureRecognizedEvent.Invoke(recognizedSamples);
+        TriggerRecognizedActions(recognizedActions);
+    }
+
+    private void TriggerRecognizedActions(List<HandGestureAction> recognizedActions)
+    {
+        HandGestureInputSystem.TriggerManyStartEvent(recognizedActions);
     }
 }
