@@ -25,7 +25,7 @@ public class HandGestureControlBinderUI : MonoBehaviour
         binder.ChangeBinding(control, rightIndex - 1, false);
     }
 
-    public void Initialize(List<string> controls, List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples,
+    public void Initialize(List<string> controls, List<HandGesture> leftSamples, List<HandGesture> rightSamples,
         HandGestureControlBindingData bindingData)
     {
 

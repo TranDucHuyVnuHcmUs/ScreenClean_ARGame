@@ -792,6 +792,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827c4431af677e057aa6f14170d0785c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &936555001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 936555002}
+  - component: {fileID: 936555003}
+  m_Layer: 0
+  m_Name: HandGestureRecognizers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &936555002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936555001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1368231470}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &936555003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936555001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085988a9943ac843a332f5856052701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
+  recognizer: {fileID: 11400000, guid: 3ffe174bf1569214a9e4acd6eba671fb, type: 2}
 --- !u!1001 &967777217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -899,53 +945,6 @@ MonoBehaviour:
   _color: {r: 0.27964914, g: 0.9622642, b: 0.030865014, a: 0.84313726}
   _lineWidth: 1
   _textSize: 33.5
---- !u!1 &1077719011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1077719012}
-  - component: {fileID: 1077719013}
-  m_Layer: 0
-  m_Name: HandGestureRecognizer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1077719012
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077719011}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1368231470}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1077719013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077719011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76f6090d1595de44d98b644bef3c0f09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handGesturePersistentStorageObj: {fileID: 11400000, guid: d4869b5299d890848a3e3d2c9924b08f, type: 2}
-  metric: {fileID: 11400000, guid: c5448df4bf78bcd489942d3de99974b8, type: 2}
-  threshold: 0.75
 --- !u!1001 &1096618952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1387,7 +1386,7 @@ GameObject:
   - component: {fileID: 1368231463}
   - component: {fileID: 1368231462}
   m_Layer: 0
-  m_Name: Solution (1)
+  m_Name: HandGestureSolution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1532,8 +1531,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1077719012}
   - {fileID: 673782245}
+  - {fileID: 936555002}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1555,10 +1554,10 @@ MonoBehaviour:
   textureFramePool: {fileID: 1368231466}
   runningMode: 0
   _handLandmarksAnnotationController: {fileID: 841116731}
-  _handRectsFromLandmarksAnnotationController: {fileID: 841116730}
+  _handRectsFromLandmarksAnnotationController: {fileID: 0}
   _rectangleWithLabelListAnnotationController: {fileID: 841116732}
   handGestureRecorder: {fileID: 0}
-  handGestureRecognizer: {fileID: 1077719013}
+  handGestureFromDatabaseRecognizer: {fileID: 936555003}
 --- !u!1001 &1465467705
 PrefabInstance:
   m_ObjectHideFlags: 0

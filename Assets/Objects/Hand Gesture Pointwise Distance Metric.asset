@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb492f53d35f8884e896da0194f29422, type: 3}
-  m_Name: New Hand Gesture Pointwise Distance Metric
+  m_Name: Hand Gesture Pointwise Distance Metric
   m_EditorClassIdentifier: 
   distanceThreshold: 0.2

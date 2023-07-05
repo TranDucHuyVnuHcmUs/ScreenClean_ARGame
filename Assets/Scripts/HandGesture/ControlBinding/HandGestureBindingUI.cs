@@ -13,7 +13,7 @@ public class HandGestureBindingUI : MonoBehaviour
     public Dropdown leftHandGestureDropdown, rightHandGestureDropdown;
 
 
-    public void Initialize(List<HandGestureSample> samples, Dropdown dropdown, UnityAction<int> onValueChangedCallback)
+    public void Initialize(List<HandGesture> samples, Dropdown dropdown, UnityAction<int> onValueChangedCallback)
     {
         var options = new List<Dropdown.OptionData>();
         foreach (var sample in samples)
@@ -26,7 +26,7 @@ public class HandGestureBindingUI : MonoBehaviour
 
 
     public void Initialize(HandGestureControlBinderUI binderUI,
-        string controlName, List<HandGestureSample> leftSamples, List<HandGestureSample> rightSamples, HandGestureControlBind handGestureControlBind)
+        string controlName, List<HandGesture> leftSamples, List<HandGesture> rightSamples, HandGestureControlBind handGestureControlBind)
     {
         this.binderUI = binderUI;
         this.control = controlName;
@@ -38,7 +38,7 @@ public class HandGestureBindingUI : MonoBehaviour
         RestorePreviousChoices(rightHandGestureDropdown, handGestureControlBind.rightGesture, rightSamples);
     }
 
-    private void RestorePreviousChoices(Dropdown dropdown, HandGestureSample gesture, List<HandGestureSample> leftSamples)
+    private void RestorePreviousChoices(Dropdown dropdown, HandGesture gesture, List<HandGesture> leftSamples)
     {
         if (gesture == null) dropdown.value = 0;
         else

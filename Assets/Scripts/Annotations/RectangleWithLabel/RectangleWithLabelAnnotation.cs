@@ -144,6 +144,7 @@ namespace Mediapipe.Unity
                 _lineRenderer.startColor = color;
                 _lineRenderer.endColor = color;
             }
+            this.labelText.color = color;
         }
 
         private void ApplyLineWidth(float lineWidth)

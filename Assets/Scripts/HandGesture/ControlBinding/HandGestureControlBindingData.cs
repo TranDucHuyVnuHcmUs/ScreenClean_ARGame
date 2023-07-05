@@ -6,7 +6,7 @@ public class HandGestureControlBind
 {
     public string key;
     public string leftGesturePath, rightGesturePath;
-    [NonSerialized] public HandGestureSample leftGesture, rightGesture;
+    [NonSerialized] public HandGesture leftGesture, rightGesture;
 
     public HandGestureControlBind(string key, string leftGesturePath, string rightGesturePath)
     {

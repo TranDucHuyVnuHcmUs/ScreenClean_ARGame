@@ -34,7 +34,7 @@ public class HandGestureControlBinder : MonoBehaviour
         return gesturePersistenceObj.GetSamplePaths(isLeft);
     }
 
-    public List<HandGestureSample> GetHandGestures(bool isLeft){
+    public List<HandGesture> GetHandGestures(bool isLeft){
          return gesturePersistenceObj.ReadSamples(isLeft);
     }
 

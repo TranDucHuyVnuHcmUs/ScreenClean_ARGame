@@ -14,11 +14,14 @@ namespace Mediapipe.Unity.HandTracking
 {
     public class MyHandGestureSolution : ImageSourceSolution<HandTrackingGraph>
     {
+        [Header("Annotation controllers")]
         [SerializeField] private MultiHandLandmarkListAnnotationController _handLandmarksAnnotationController;
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromLandmarksAnnotationController;
         [SerializeField] private RectangleWithLabelListAnnotationController _rectangleWithLabelListAnnotationController;
+
+        [Header("Hand gesture workers")]
         public HandGestureRecorder handGestureRecorder;
-        public HandGestureRecognizer handGestureRecognizer;
+        public HandGestureFromDatabaseRecognizer handGestureFromDatabaseRecognizer;
 
         public HandTrackingGraph.ModelComplexity modelComplexity
         {
@@ -58,9 +61,10 @@ namespace Mediapipe.Unity.HandTracking
 
             var imageSource = ImageSourceProvider.ImageSource;
             SetupAnnotationController(_handLandmarksAnnotationController, imageSource, true);
-            SetupAnnotationController(_handRectsFromLandmarksAnnotationController, imageSource, true);
+            if (_handRectsFromLandmarksAnnotationController)
+                SetupAnnotationController(_handRectsFromLandmarksAnnotationController, imageSource, true);
 
-            this.handGestureRecognizer?.handGestureRecognizedEvent.AddListener(OnGestureOutput);
+            this.handGestureFromDatabaseRecognizer?.handGestureRecognizedEvent.AddListener(OnGestureOutput);
         }
 
         protected override void AddTextureFrameToInputStream(TextureFrame textureFrame)
@@ -91,9 +95,9 @@ namespace Mediapipe.Unity.HandTracking
             if (_rectangleWithLabelListAnnotationController)
             {
                 List<string> labels = new List<string>();
-                if (handGestureRecognizer)
+                if (handGestureFromDatabaseRecognizer)
                 {
-                    var recognizeData = handGestureRecognizer.RecognizeGestureReturn(handLandmarks, handedness);
+                    var recognizeData = handGestureFromDatabaseRecognizer.RecognizeGestureReturn(handLandmarks, handedness);
                     foreach (var data in recognizeData)
                     {
                         string label = (data.recognizedSample != null ? data.recognizedSample.gestureName : "???");
@@ -123,7 +127,7 @@ namespace Mediapipe.Unity.HandTracking
             {
                 handGestureRecorder?.SetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
                 //handGestureRecognizer?.RecognizeGesture(eventArgs.value);
-                handGestureRecognizer?.SetNormalizedLandmarkList(eventArgs.value);
+                handGestureFromDatabaseRecognizer?.SetNormalizedLandmarkList(eventArgs.value);
             }
         }
 
@@ -139,7 +143,7 @@ namespace Mediapipe.Unity.HandTracking
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {
-                handGestureRecognizer?.SetHandednessList(eventArgs.value);
+                handGestureFromDatabaseRecognizer?.SetHandednessList(eventArgs.value);
                 handGestureRecorder?.SetHandedness(eventArgs.value[0].Classification);
             }
         }

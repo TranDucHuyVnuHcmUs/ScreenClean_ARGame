@@ -5,16 +5,16 @@ using UnityEngine;
 using System.Linq;
 
 [System.Serializable]
-public class HandGestureLandmarkList
+public class HandLandmarkList
 {
     public List<Vector3> landmarks;
 
-    public HandGestureLandmarkList()
+    public HandLandmarkList()
     {
         landmarks = new List<Vector3>();
     }
 
-    public HandGestureLandmarkList(List<Vector3> landmarks)
+    public HandLandmarkList(List<Vector3> landmarks)
     {
         this.landmarks = landmarks;
     }
@@ -22,24 +22,24 @@ public class HandGestureLandmarkList
 
 
 [System.Serializable]
-public class HandGestureSample
+public class HandGesture
 {
     public string gestureName;
     public bool isLeft;                 // left or right hand?
     public string recordDate;
-    public List<HandGestureLandmarkList> landmarkLists;
+    public List<HandLandmarkList> landmarkLists;
 
-    public HandGestureSample()
+    public HandGesture()
     {
-        landmarkLists = new List<HandGestureLandmarkList>();
+        landmarkLists = new List<HandLandmarkList>();
         recordDate = DateTime.Now.ToString("ddMMyyyy_HHmm");
     }
 
-    public HandGestureSample(string gestureName, bool isLeft)
+    public HandGesture(string gestureName, bool isLeft)
     {
         this.gestureName = gestureName;
         this.isLeft = isLeft;
-        landmarkLists = new List<HandGestureLandmarkList>();
+        landmarkLists = new List<HandLandmarkList>();
         recordDate = DateTime.Now.ToString("ddMMyyyy_HHmm");
     }
 }
@@ -48,7 +48,7 @@ public class HandGestureSample
 public class HandGesturePersistentStorageObj : ScriptableObject
 {
     public string folderPath;       // append with persistent datapath on the beginning of the path.
-    public List<HandGestureSample> leftSamples, rightSamples;
+    public List<HandGesture> leftSamples, rightSamples;
     private bool isInitialized = false;
 
     private const string LEFT_HAND_FOLDER = "Left";
@@ -79,7 +79,7 @@ public class HandGesturePersistentStorageObj : ScriptableObject
         }
     }
 
-    public void SaveToPersistence(string filename, HandGestureSample content)
+    public void SaveToPersistence(string filename, HandGesture content)
     {
         CreateFolder();
         string path = Path.Combine( GetPath(content.isLeft), filename );
@@ -91,17 +91,17 @@ public class HandGesturePersistentStorageObj : ScriptableObject
         }
     }
 
-    public HandGestureSample ReadFromPersistence(string filename, bool isLeft)
+    public HandGesture ReadFromPersistence(string filename, bool isLeft)
     {
         string path = Path.Combine(GetPath(isLeft), filename);
         using (StreamReader sr = new StreamReader(path))
-            return JsonUtility.FromJson<HandGestureSample>(sr.ReadToEnd());
+            return JsonUtility.FromJson<HandGesture>(sr.ReadToEnd());
     }
-    public HandGestureSample ReadFromPersistence(string absPath)
+    public HandGesture ReadFromPersistence(string absPath)
     {
         if (absPath == null || absPath == "") return null;
         using (StreamReader sr = new StreamReader(absPath))
-            return JsonUtility.FromJson<HandGestureSample>(sr.ReadToEnd());
+            return JsonUtility.FromJson<HandGesture>(sr.ReadToEnd());
     }
 
     public List<string> GetSamplePaths(bool isLeft)
@@ -115,7 +115,7 @@ public class HandGesturePersistentStorageObj : ScriptableObject
         return lefts.Concat(rights).ToList();
     }
 
-    public List<HandGestureSample> ReadSamples(bool isLeft)
+    public List<HandGesture> ReadSamples(bool isLeft)
     {
         if (isInitialized)
         {
@@ -124,7 +124,7 @@ public class HandGesturePersistentStorageObj : ScriptableObject
             else return this.rightSamples;
         }
         var filePaths = Directory.GetFiles(GetPath(isLeft));
-        List<HandGestureSample> samples = new List<HandGestureSample>();
+        List<HandGesture> samples = new List<HandGesture>();
         for (int i = 0; i < filePaths.Length; i++) {
             samples.Add(ReadFromPersistence(filePaths[i]));
         }
@@ -132,7 +132,7 @@ public class HandGesturePersistentStorageObj : ScriptableObject
         return samples;
     }
 
-    public List<HandGestureSample> ReadAllSamples()
+    public List<HandGesture> ReadAllSamples()
     {
         var lefts = ReadSamples(true);
         var rights = ReadSamples(false);

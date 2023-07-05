@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandGestureUtility
 {
-    public static HandGestureLandmarkList NormalizeLandmark(NormalizedLandmarkList landmarks)
+    public static HandLandmarkList NormalizeLandmark(NormalizedLandmarkList landmarks)
     {
         float inf = 9999999;
         float minX = inf, minY = inf, minZ = inf, maxX = -inf, maxY = -inf, maxZ = -inf;
@@ -32,7 +32,7 @@ public class HandGestureUtility
         }
 
         //Debug.Log(string.Format("Bounding box: min:({0},{1},{2}), max:({3},{4},{5})", minX, minY, minZ, maxX, maxY, maxZ));
-        return new HandGestureLandmarkList(landmark_vecs);
+        return new HandLandmarkList(landmark_vecs);
     }
 
 }
