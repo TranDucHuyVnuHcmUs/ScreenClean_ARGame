@@ -22,8 +22,6 @@ public class HandGestureActionRecognizer : MonoBehaviour
     [Header("Events")]
     public HandGestureRecognizeDataListUnityEvent handGestureRecognizedEvent;
 
-    private List<HandGesture> leftSamples, rightSamples;
-
 
     private void Awake()
     {
@@ -35,8 +33,6 @@ public class HandGestureActionRecognizer : MonoBehaviour
         handGestureInputSystem = HandGestureInputSystem.instance;
         handGesturePersistentStorageObj.Initialize();           // ask it to fill the data
 
-        this.leftSamples = PrepareSamples(true);
-        this.rightSamples = PrepareSamples(false);
     }
 
     internal HandGestureAction RecognizeActionFromLandmarks(
@@ -45,7 +41,13 @@ public class HandGestureActionRecognizer : MonoBehaviour
     {
         bool isLeft = IsHandLeft(handednessList.Classification);
         int index = -1;
-        var samples = (isLeft) ? this.leftSamples : this.rightSamples;
+
+        //re-prepare the samples, maybe user have changed the config.
+        var leftSamples = PrepareSamples(true);
+        var rightSamples = PrepareSamples(false);
+        var samples = (isLeft) ? leftSamples : rightSamples;
+        if (samples == null || samples.Count == 0) return HandGestureAction.UNKNOWN;    // no gesture binded? then there's nothing to recognize.
+
         var recogResult = recognizer.RecognizeLandmarksFromSamples( HandGestureUtility.NormalizeLandmark(normalizedLandmarkList), samples, out index);
         
         if (recogResult != null && recogResult.recognizedSample != null) 
@@ -58,8 +60,8 @@ public class HandGestureActionRecognizer : MonoBehaviour
         var bindings = HandGestureInputSystem.GetAllBindings();
         var gestures = new List<HandGesture>();
         for (int i = 0; i < bindings.Count; i++) {
-            Debug.Log(i);
-            gestures.Add( (isLeft) ? bindings[i].leftGesture : bindings[i].rightGesture);
+            var gesture = (isLeft) ? bindings[i].leftGesture : bindings[i].rightGesture;
+            if (gesture != null) gestures.Add(gesture);
         }
         return gestures;
     }

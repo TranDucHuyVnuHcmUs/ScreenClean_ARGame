@@ -62,9 +62,12 @@ public class HandGestureActionBinder : MonoBehaviour
         if (isLeft)
         {
             handGestureInputSystemConfig.scheme.bindings[cid].leftGesturePath = p;
-        } else
+            handGestureInputSystemConfig.scheme.bindings[cid].leftGesture = gesturePersistenceObj.ReadFromPersistence(p);
+        } 
+        else
         {
             handGestureInputSystemConfig.scheme.bindings[cid].rightGesturePath = p;
+            handGestureInputSystemConfig.scheme.bindings[cid].rightGesture = gesturePersistenceObj.ReadFromPersistence(p);
         }
     }
 

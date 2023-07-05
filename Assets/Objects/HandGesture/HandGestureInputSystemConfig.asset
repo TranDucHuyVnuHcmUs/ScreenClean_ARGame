@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efad9d32df6955d468218782547e30d0, type: 3}
   m_Name: HandGestureInputSystemConfig
   m_EditorClassIdentifier: 
-  actions: 010000000200000003000000
+  actions: 0100000003000000
   scheme:
     bindings: []
   bindingPersistenceObj: {fileID: 11400000, guid: aef0f8a7d22c9734e987904efcbfaaaa, type: 2}
