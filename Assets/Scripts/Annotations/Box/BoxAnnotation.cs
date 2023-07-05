@@ -19,6 +19,7 @@ namespace Mediapipe.Unity
     public class BoxAnnotation : HierarchicalAnnotation
     {
         public GameObject box;
+        public GameObject movingObj;
         [SerializeField] private Color _color = Color.red;
         [SerializeField, Range(0, 1)] private float _lineWidth = 1.0f;
 
@@ -61,11 +62,11 @@ namespace Mediapipe.Unity
             {
                 sum += positions[i];
             }
-            MoveBoxToCenter(sum / positions.Length);
+            MoveObjectToCenter(sum / positions.Length);
         }
-        public void MoveBoxToCenter(Vector3 center)
+        public void MoveObjectToCenter(Vector3 center)
         {
-            box.transform.localPosition = center;
+            movingObj.transform.localPosition = center;
         }
 
 

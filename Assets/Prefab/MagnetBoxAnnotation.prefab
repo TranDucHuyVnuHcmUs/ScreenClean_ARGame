@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8539e05d07257d54bafff5865635cf54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toParent: 0
+  toParent: 1
 --- !u!1 &3625208183835880966
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,5 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   box: {fileID: 1157038271468833523}
+  movingObj: {fileID: 3625208183835880966}
   _color: {r: 0.7924528, g: 0.38426486, b: 0.38426486, a: 1}
   _lineWidth: 1
