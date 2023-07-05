@@ -9,16 +9,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Mediapipe.Unity.HandTracking
 {
+    //public class DetectionListUnityEvent : UnityEvent<List<Detection>> { }
+    //public class NormalizedRectListUnityEvent : UnityEvent<List<NormalizedRect>> { }
+    //public class NormalizedLandmarkListUnityEvent : UnityEvent<List<NormalizedLandmarkList>> { }
+    //public class ClassificationListUnityEvent : UnityEvent<List<ClassificationList>> { }
+
+
     public class MyHandGestureSolution : ImageSourceSolution<HandTrackingGraph>
     {
-        [SerializeField] private DetectionListAnnotationController _palmDetectionsAnnotationController;
-        [SerializeField] private NormalizedRectListAnnotationController _handRectsFromPalmDetectionsAnnotationController;
+        [Header("Annotation controllers")]
         [SerializeField] private MultiHandLandmarkListAnnotationController _handLandmarksAnnotationController;
         [SerializeField] private NormalizedRectListAnnotationController _handRectsFromLandmarksAnnotationController;
-        public HandGestureRecorder handGestureRegister;
+        [SerializeField] private RectangleWithLabelListAnnotationController _rectangleWithLabelListAnnotationController;
+
+        [Header("Hand gesture workers")]
+        public HandGestureRecorder handGestureRecorder;
+        public HandGestureFromPersistenceRecognizer handGestureFromPersistenceRecognizer;
+
+        //events
+        [Header("Events")]
+        public DetectionListUnityEvent OnPalmDetectionOutputEvent;
+        public NormalizedRectListUnityEvent OnPalmDetectionsRectsOutputEvent;
+        public NormalizedLandmarkListUnityEvent OnHandLandmarksOutputEvent;
+        public NormalizedRectListUnityEvent OnHandLandmarksRectsOutputEvent;
+        public ClassificationListUnityEvent OnHandednessOutputEvent;
+
 
         public HandTrackingGraph.ModelComplexity modelComplexity
         {
@@ -49,18 +68,19 @@ namespace Mediapipe.Unity.HandTracking
             if (!runningMode.IsSynchronous())
             {
                 graphRunner.OnPalmDetectectionsOutput += OnPalmDetectionsOutput;
-                graphRunner.OnHandRectsFromPalmDetectionsOutput += OnHandRectsFromPalmDetectionsOutput;
+                graphRunner.OnHandRectsFromPalmDetectionsOutput += OnPalmDetectionsRectsOutput;
                 graphRunner.OnHandLandmarksOutput += OnHandLandmarksOutput;
                 // TODO: render HandWorldLandmarks annotations
-                graphRunner.OnHandRectsFromLandmarksOutput += OnHandRectsFromLandmarksOutput;
+                graphRunner.OnHandRectsFromLandmarksOutput += OnHandLandmarksRectsOutput;
                 graphRunner.OnHandednessOutput += OnHandednessOutput;
             }
 
             var imageSource = ImageSourceProvider.ImageSource;
-            SetupAnnotationController(_palmDetectionsAnnotationController, imageSource, true);
-            SetupAnnotationController(_handRectsFromPalmDetectionsAnnotationController, imageSource, true);
             SetupAnnotationController(_handLandmarksAnnotationController, imageSource, true);
-            SetupAnnotationController(_handRectsFromLandmarksAnnotationController, imageSource, true);
+            if (_handRectsFromLandmarksAnnotationController)
+                SetupAnnotationController(_handRectsFromLandmarksAnnotationController, imageSource, true);
+
+            this.handGestureFromPersistenceRecognizer?.handGestureRecognizedEvent.AddListener(OnGestureOutput);
         }
 
         protected override void AddTextureFrameToInputStream(TextureFrame textureFrame)
@@ -86,40 +106,76 @@ namespace Mediapipe.Unity.HandTracking
                 yield return new WaitUntil(() => graphRunner.TryGetNext(out palmDetections, out handRectsFromPalmDetections, out handLandmarks, out handWorldLandmarks, out handRectsFromLandmarks, out handedness, false));
             }
 
-            //_palmDetectionsAnnotationController.DrawNow(palmDetections);
-            //_handRectsFromPalmDetectionsAnnotationController.DrawNow(handRectsFromPalmDetections);
             _handLandmarksAnnotationController.DrawNow(handLandmarks, handedness);
-            // TODO: render HandWorldLandmarks annotations
-            //_handRectsFromLandmarksAnnotationController.DrawNow(handRectsFromLandmarks);
+
+            if (_rectangleWithLabelListAnnotationController)
+            {
+                List<string> labels = new List<string>();
+                if (handGestureFromPersistenceRecognizer)
+                {
+                    var recognizeData = handGestureFromPersistenceRecognizer.RecognizeGestureReturn(handLandmarks, handedness);
+                    foreach (var data in recognizeData)
+                    {
+                        string label = (data.recognizedSample != null ? data.recognizedSample.gestureName : "???");
+                        labels.Add(label + ":" + data.score.ToString());
+                    }
+                }
+                else labels = new List<string>(handRectsFromLandmarks.Count);
+
+                _rectangleWithLabelListAnnotationController.DrawNow(handRectsFromLandmarks, labels);
+            }
+            
         }
 
         private void OnPalmDetectionsOutput(object stream, OutputEventArgs<List<Detection>> eventArgs)
         {
-            //_palmDetectionsAnnotationController.DrawLater(eventArgs.value);
+            this.OnPalmDetectionOutputEvent.Invoke(eventArgs.value);
         }
 
-        private void OnHandRectsFromPalmDetectionsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
+        private void OnPalmDetectionsRectsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
         {
-            _handRectsFromPalmDetectionsAnnotationController.DrawLater(eventArgs.value);
+            this.OnPalmDetectionsRectsOutputEvent.Invoke(eventArgs.value);
         }
 
         private void OnHandLandmarksOutput(object stream, OutputEventArgs<List<NormalizedLandmarkList>> eventArgs)
         {
+            this.OnHandLandmarksOutputEvent.Invoke(eventArgs.value);
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
             if (eventArgs.value != null)
             {
-                handGestureRegister.GetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
+                handGestureRecorder?.SetLandmarks(eventArgs.value[0]);       // we only care about the first hand.
+                //handGestureRecognizer?.RecognizeGesture(eventArgs.value);
+                handGestureFromPersistenceRecognizer?.SetNormalizedLandmarkList(eventArgs.value);
             }
         }
 
-        private void OnHandRectsFromLandmarksOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
+        private void OnHandLandmarksRectsOutput(object stream, OutputEventArgs<List<NormalizedRect>> eventArgs)
         {
-            //_handRectsFromLandmarksAnnotationController.DrawLater(eventArgs.value);
+            this.OnHandLandmarksRectsOutputEvent.Invoke(eventArgs.value);
+            _handRectsFromLandmarksAnnotationController?.DrawLater(eventArgs.value);
+            _rectangleWithLabelListAnnotationController?.DrawLater(eventArgs.value);
         }
 
         private void OnHandednessOutput(object stream, OutputEventArgs<List<ClassificationList>> eventArgs)
         {
+            this.OnHandednessOutputEvent.Invoke(eventArgs.value);
             _handLandmarksAnnotationController.DrawLater(eventArgs.value);
+            if (eventArgs.value != null)
+            {
+                handGestureFromPersistenceRecognizer?.SetHandednessList(eventArgs.value);
+                handGestureRecorder?.SetHandedness(eventArgs.value[0].Classification);
+            }
+        }
+
+        public void OnGestureOutput(List<HandGestureRecognizeData> recognizeDatas)
+        {
+            List<string> labels = new List<string>();
+            foreach (var data in recognizeDatas)
+            {
+                string label = (data.recognizedSample != null ? data.recognizedSample.gestureName : "???");
+                labels.Add(label + ":" + data.score.ToString());
+            }
+            _rectangleWithLabelListAnnotationController.DrawLater(labels);
         }
     }
 }
