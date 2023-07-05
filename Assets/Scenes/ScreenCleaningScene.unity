@@ -1410,6 +1410,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 841116731}
+    - targetCorrespondingSourceObject: {fileID: 8798066379235852099, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 841116732}
   m_SourcePrefab: {fileID: 100100000, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
 --- !u!4 &841116728 stripped
 Transform:
@@ -1428,7 +1431,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841116729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f4190c4421f92d5187d2ebdc88a9594, type: 3}
   m_Name: 
@@ -1447,7 +1450,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   annotation: {fileID: 1465467706}
-  _visualizeZ: 0
+  _visualizeZ: 1
+--- !u!114 &841116732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841116729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe8bf760512b214da93e43791d850da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  register: {fileID: 779690319}
+  listener: {fileID: 841116731}
 --- !u!114 &841116734 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2020366215714292840, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
@@ -1632,6 +1649,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 376277036}
     m_Modifications:
+    - target: {fileID: 513775377333483481, guid: 30008eec17c79f648b954fe192a10756, type: 3}
+      propertyPath: label
+      value: Time
+      objectReference: {fileID: 0}
     - target: {fileID: 2890498049933933011, guid: 30008eec17c79f648b954fe192a10756, type: 3}
       propertyPath: m_Text
       value: 'Time:'
@@ -2544,6 +2565,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 376277036}
     m_Modifications:
+    - target: {fileID: 513775377333483481, guid: 30008eec17c79f648b954fe192a10756, type: 3}
+      propertyPath: label
+      value: Score
+      objectReference: {fileID: 0}
     - target: {fileID: 4656923844547546222, guid: 30008eec17c79f648b954fe192a10756, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

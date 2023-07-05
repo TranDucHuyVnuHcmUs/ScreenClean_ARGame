@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
+    public string label;
     public Text scoreText;
 
     internal void UpdateScore(float score)
     {
-        scoreText.text = "Score: " + score.ToString();
+        scoreText.text = label + ": " + score.ToString();
     }
 }
