@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,18 +10,25 @@ public class GameManager : MonoBehaviour
 
     public float score;
     public float time;
-    public GameUI scoreUI, timeUI;
-    public GameObject gameOverUI, winUI;
-    public bool isCleaning = false;
+    public bool isCleaning = true;
 
     public int dirtCount = 0;
     public GameObject dirtGroup;
 
-    public UnityEvent startCleaningEvent;
+    [Header("Events")]
+    public UnityEvent nextLevelEvent, winEvent, gameOverEvent;
+    public FloatUnityEvent addScoreEvent, addTimeEvent;
 
     private void Awake()
     {
         Instance = this;
+        InitEvents();
+    }
+
+    private void InitEvents()
+    {
+        addScoreEvent = new FloatUnityEvent();
+        addTimeEvent = new FloatUnityEvent();
     }
 
     private void Start()
@@ -40,25 +48,22 @@ public class GameManager : MonoBehaviour
     public void AddScore(float addedScore)
     {
         score += addedScore;
-        scoreUI.UpdateScore(score);
+        addScoreEvent.Invoke(score);
     }
 
-    public void StartCleaning()
-    {
-        isCleaning = true;
-        startCleaningEvent.Invoke();
-    }
 
     #region events
 
     public void GameOver()
     {
-        gameOverUI.SetActive(true);
+        gameOverEvent.Invoke();
+        //gameOverUI.SetActive(true);
     }
 
     public void Win()
     {
-        winUI.SetActive(true);
+        winEvent.Invoke();
+        //winUI.SetActive(true);
     }
 
     #endregion
@@ -67,6 +72,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         time += Time.deltaTime;
-        timeUI.UpdateScore(score);
+        addTimeEvent.Invoke(time);
+        //timeUI.UpdateScore(score);
     }
 }
