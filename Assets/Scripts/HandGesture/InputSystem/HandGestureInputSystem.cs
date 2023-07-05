@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,6 +31,7 @@ public class HandGestureActionEvents
     public HandGestureInputEvent startEvent;
     public HandGestureInputEvent keepEvent;
     public HandGestureInputEvent stopEvent;
+
 
     public HandGestureActionEvents(HandGestureInputEvent startEvent, 
         HandGestureInputEvent keepEvent, 
@@ -65,83 +67,116 @@ public class HandGestureInputSystem : MonoBehaviour
     [Header("Data sources")]
     public HandGestureInputSystemConfig configObj;
 
-    [Header("Events")]
-    private Dictionary<HandGestureAction, HandGestureActionEvents> actionEvents;
-
-    private Dictionary<HandGestureAction, bool> actionInUseStatus;         // because we have 2 hands, so we can perform 2 hand gesture input at the same time!
-
+    private List<HandGestureAction> actions;
+    private Dictionary<HandGestureAction, int> actionIndexes;
+    private List<HandGestureActionEvents> actionEvents;
+    private bool[] actionStatuses;          // is an action being used or not?
+ 
     private void Start()
     {
         configObj.Load();
-        actionEvents = new Dictionary<HandGestureAction, HandGestureActionEvents>();
-        actionInUseStatus = new Dictionary<HandGestureAction, bool>();
-        InitInputEvents();
+        InitInputActionData();
     }
 
-    private void InitInputEvents()
+    private void InitInputActionData()
     {
-        var actions = configObj.scheme.GetActions();
+        actionEvents = new List<HandGestureActionEvents>();
+        actionIndexes = new Dictionary<HandGestureAction, int>();
+        actions = configObj.scheme.GetActions();
+
+        actionStatuses = new bool[actions.Count];
         for (int i = 0; i < actions.Count; i++) {
-            actionEvents[actions[i]] = new HandGestureActionEvents();
-            actionInUseStatus[actions[i]] = false;
+            actionIndexes[actions[i]] = i;
+            actionEvents.Add(new HandGestureActionEvents());
         }
     }
 
     private void Update()
     {
-        var actions = configObj.scheme.GetActions();
         for (int i = 0; i < actions.Count; i++)
         {
-            if (actionInUseStatus[actions[i]])
+            if (actionStatuses[i])
                 TriggerKeepEvent(actions[i]);            // update every frame!
         }
     }
 
     private void TriggerKeepEvent(HandGestureAction action)
     {
-        actionEvents[action].keepEvent.Invoke(new HandGestureInputEventArgs(action));
+        actionEvents[FindIndex(action)].keepEvent.Invoke(new HandGestureInputEventArgs(action));
         Debug.Log("Action kept: " + action.ToString());
+    }
+
+    private static int FindIndex(HandGestureAction action) {
+        if (action == HandGestureAction.UNKNOWN) return -1;
+        return instance.actionIndexes[action];
     }
 
     public static void ListenToActionStartEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
-        instance.actionEvents[action].startEvent.AddListener(method);
+        instance.actionEvents[FindIndex(action)].startEvent.AddListener(method);
     }
     public static void ListenToActionKeepEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
-        instance.actionEvents[action].keepEvent.AddListener(method);
+        instance.actionEvents[FindIndex(action)].keepEvent.AddListener(method);
     }
     public static void ListenToActionStopEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
-        instance.actionEvents[action].stopEvent.AddListener(method);
+        instance.actionEvents[FindIndex(action)].stopEvent.AddListener(method);
     }
 
-    public static void TriggerStartEvent(HandGestureAction action)
+    public static void CallActionStartEvent(HandGestureAction action)
     {
         if (action == HandGestureAction.UNKNOWN) return;
-        if (!instance.actionEvents.ContainsKey(action)) return;
-        instance.actionInUseStatus[action] = true;
-        instance.actionEvents[action].startEvent.Invoke(new HandGestureInputEventArgs(action));
+        if (!instance.actionIndexes.ContainsKey(action)) return;
+
+        instance.actionStatuses[FindIndex(action)] = true;
+        instance.actionEvents[FindIndex(action)].startEvent.Invoke(new HandGestureInputEventArgs(action));
         Debug.Log("Action started: " + action.ToString());
     }
-    public static void TriggerStopEvent(HandGestureAction action)
+    public static void CallActionStopEvent(HandGestureAction action)
     {
         if (action == HandGestureAction.UNKNOWN) return;
-        if (!instance.actionEvents.ContainsKey(action)) return;
-        instance.actionInUseStatus[action] = false;
-        instance.actionEvents[action].stopEvent.Invoke(new HandGestureInputEventArgs(action));
+        if (!instance.actionIndexes.ContainsKey(action)) return;
+
+        instance.actionStatuses[FindIndex(action)] = false;
+        instance.actionEvents[FindIndex(action)].stopEvent.Invoke(new HandGestureInputEventArgs(action));
         Debug.Log("Action stopped: " + action.ToString());
     }
 
-    public static void TriggerManyStartEvent(List<HandGestureAction> actions)
+
+    public static void UpdateActionStatuses(IList<HandGestureAction> recognizedActions)
     {
-        foreach (var action in actions)
-            TriggerStartEvent(action);
+        List<int> recognizedActionIndexes = FindIndexes(recognizedActions);
+
+        bool[] newActionStatuses = new bool[instance.actionStatuses.Length];
+        Array.Fill(newActionStatuses, false);
+
+        for (int i = 0; i < recognizedActionIndexes.Count; i++)
+        {
+            var index = recognizedActionIndexes[i];
+            if (index == -1) continue;
+            if (!instance.actionStatuses[index]) {
+                CallActionStartEvent(recognizedActions[i]);
+            }
+            newActionStatuses[index] = true;
+        }
+
+        for (int i = 0; i < instance.actionStatuses.Length; i++)
+        {
+            if (instance.actionStatuses[i] && !newActionStatuses[i])        // that means it's turn from on to off
+            {
+                CallActionStopEvent(instance.actions[i]);
+            }
+        }
     }
-    public static void TriggerManyStopEvent(List<HandGestureAction> actions)
+
+    private static List<int> FindIndexes(IList<HandGestureAction> recognizedActions)
     {
-        foreach (var action in actions)
-            TriggerStopEvent(action);
+        List<int> indexes = new List<int>();
+        foreach (var action in recognizedActions)
+            if (action == HandGestureAction.UNKNOWN) indexes.Add(-1);
+            else indexes.Add(FindIndex(action));
+        return indexes;
     }
 
     public static List<HandGestureAction> GetActions() { return instance.configObj.actions; }

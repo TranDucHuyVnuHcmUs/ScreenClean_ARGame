@@ -87,6 +87,11 @@ public class HandGestureActionRecognizer : MonoBehaviour
             //reset
             this.currentNormalizedLandmarkLists = null;
             this.handednessLists = null;
+        } 
+        else if (this.currentNormalizedLandmarkLists == null)
+        {
+            //no data received. Turn off the actions.
+            TurnOffAllActions();
         }
     }
 
@@ -100,6 +105,16 @@ public class HandGestureActionRecognizer : MonoBehaviour
             this.currentNormalizedLandmarkLists = null;
             this.handednessLists = null;
         }
+        else if (this.handednessLists == null)
+        {
+            //no data received. Turn off the actions.
+            TurnOffAllActions();
+        }
+    }
+
+    private void TurnOffAllActions()
+    {
+        HandGestureInputSystem.UpdateActionStatuses(new List<HandGestureAction>());     // empty list
     }
 
     internal void RecognizeGesture(List<NormalizedLandmarkList> landmarksList, List<ClassificationList> handednessLists)
@@ -108,11 +123,11 @@ public class HandGestureActionRecognizer : MonoBehaviour
         for (int i = 0; i < landmarksList.Count; i++) {
             recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], handednessLists[i]));
         }
-        TriggerRecognizedActions(recognizedActions);
+        UpdateActionStatuses(recognizedActions);
     }
 
-    private void TriggerRecognizedActions(List<HandGestureAction> recognizedActions)
+    private void UpdateActionStatuses(List<HandGestureAction> recognizedActions)
     {
-        HandGestureInputSystem.TriggerManyStartEvent(recognizedActions);
+        HandGestureInputSystem.UpdateActionStatuses(recognizedActions);
     }
 }
