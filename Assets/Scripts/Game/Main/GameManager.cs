@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
 
     public float score;
     public float time;
-    public bool isCleaning = true;
+
+    public GameConfig config;
+    public int currentLevelIndex = 0;
 
     public int dirtCount = 0;
     public GameObject dirtGroup;
@@ -60,8 +62,14 @@ public class GameManager : MonoBehaviour
         //gameOverUI.SetActive(true);
     }
 
+    public void NextLevel()
+    {
+        nextLevelEvent.Invoke();
+    }
+
     public void Win()
     {
+
         winEvent.Invoke();
         //winUI.SetActive(true);
     }
