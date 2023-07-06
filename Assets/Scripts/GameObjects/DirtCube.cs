@@ -1,3 +1,4 @@
+using Mediapipe.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,15 +9,17 @@ public class DirtCube : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (GameManager.Instance.isCleaning)
+        if (other.GetComponent<Towel>())
         {
-            if (!other.GetComponent<Towel>()) return;
             GameManager.Instance.AddScore(this.score);
             GameManager.Instance.RemoveDirt();
             Destroy(this.gameObject);
-        } else
+        }
+        else if (other.GetComponent<GameHandLandmark>())
         {
-            GameManager.Instance.GameOver();
+            var isClean = other.GetComponent<GameHandLandmark>().isClean;
+            if (!isClean) 
+                 GameManager.Instance.GameOver();
         }
     }
 

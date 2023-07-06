@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MagnetHand : MonoBehaviour
 {
-    public BoxListAnnotationController magnetCubeAnnotationController;
+    public ObjectsListAnnotationController magnetCubeAnnotationController;
     public HandGestureAction activateAction;
 
     internal void ActivateBoxAnnotations(List<HandGestureAction> recognizedActions)

@@ -35,6 +35,31 @@ public class HandGestureActionRecognizer : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        SyncProcess();
+    }
+
+    /// <summary>
+    /// This method should run only in the main thread.
+    /// </summary>
+    public void SyncProcess()
+    {
+        if (this.currentNormalizedLandmarkLists != null && this.handednessLists != null)
+        {
+            RecognizeGesture(this.currentNormalizedLandmarkLists, this.handednessLists);
+            //reset
+            //this.currentNormalizedLandmarkLists = null;
+            //this.handednessLists = null;
+        }
+        else if (this.handednessLists == null && this.currentNormalizedLandmarkLists == null)
+        {
+            //no data received. Turn off the actions.
+            TurnOffAllActions();
+        }
+    }
+
+
     internal HandGestureAction RecognizeActionFromLandmarks(
         NormalizedLandmarkList normalizedLandmarkList,
         ClassificationList handednessList)
@@ -83,35 +108,11 @@ public class HandGestureActionRecognizer : MonoBehaviour
     public void SetNormalizedLandmarkList(List<NormalizedLandmarkList> normalizedLandmarkList)
     {
         this.currentNormalizedLandmarkLists = normalizedLandmarkList;
-        if (this.handednessLists != null)
-        {
-            RecognizeGesture(this.currentNormalizedLandmarkLists, this.handednessLists);
-            //reset
-            this.currentNormalizedLandmarkLists = null;
-            this.handednessLists = null;
-        } 
-        else if (this.currentNormalizedLandmarkLists == null)
-        {
-            //no data received. Turn off the actions.
-            TurnOffAllActions();
-        }
     }
 
     public void SetHandednessList(List<ClassificationList> handednessLists)
     {
         this.handednessLists = handednessLists;
-        if (this.currentNormalizedLandmarkLists != null)
-        {
-            RecognizeGesture(this.currentNormalizedLandmarkLists, this.handednessLists);
-            //reset
-            this.currentNormalizedLandmarkLists = null;
-            this.handednessLists = null;
-        }
-        else if (this.handednessLists == null)
-        {
-            //no data received. Turn off the actions.
-            TurnOffAllActions();
-        }
     }
 
     private void TurnOffAllActions()
@@ -123,7 +124,10 @@ public class HandGestureActionRecognizer : MonoBehaviour
     {
         List<HandGestureAction> recognizedActions = new List<HandGestureAction>();
         for (int i = 0; i < landmarksList.Count; i++) {
-            recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], handednessLists[i]));
+            if (i >= handednessLists.Count)
+                recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], new ClassificationList()));
+            else
+                recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], handednessLists[i]));
         }
         UpdateActionStatuses(recognizedActions);
     }

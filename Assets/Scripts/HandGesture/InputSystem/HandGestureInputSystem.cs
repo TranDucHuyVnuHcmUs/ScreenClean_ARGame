@@ -198,7 +198,7 @@ public class HandGestureInputSystem : MonoBehaviour
 
     private static void CallActionRecognizedEvent(List<HandGestureAction> recognizedActions)
     {
-        instance?.actionsRecognizedEvent?.Invoke(recognizedActions);
+        instance.actionsRecognizedEvent.Invoke(recognizedActions);
     }
 
     private static List<int> FindIndexes(IList<HandGestureAction> recognizedActions)

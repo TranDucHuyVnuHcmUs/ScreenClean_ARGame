@@ -3,8 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ColliderUnityEvent: UnityEvent<Collider> { }
-
 public class TriggerCollisionEventHandler : MonoBehaviour
 {
     public UnityEvent triggerEnterVoidEvent, triggerExitVoidEvent;
