@@ -18,6 +18,7 @@ namespace Mediapipe.Unity
     {
         [SerializeField] private GamePointListAnnotation _landmarkListAnnotation;
         [SerializeField] private GameConnectionListAnnotation _connectionListAnnotation;
+        [SerializeField] private ObjectsAnnotation _objectsAnnotation;
         [SerializeField] private Color _leftLandmarkColor = Color.green;
         [SerializeField] private Color _rightLandmarkColor = Color.green;
 
@@ -154,5 +155,16 @@ namespace Mediapipe.Unity
         {
             _landmarkListAnnotation.SetCleanness(target);
         }
+
+        internal void MoveObjects(NormalizedRect target)
+        {
+            _objectsAnnotation.Draw(target);
+        }
+
+        internal void ActivateObject(bool isActive)
+        {
+            _objectsAnnotation.SetObjectActive(isActive);
+        }
+
     }
 }

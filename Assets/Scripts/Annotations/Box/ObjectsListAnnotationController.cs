@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Mediapipe.Unity
 {
-    public class BoxListAnnotationController : AnnotationController<BoxListAnnotation>
+    public class ObjectsListAnnotationController : AnnotationController<ObjectsListAnnotation>
     {
         private IList<NormalizedRect> _currentTarget;
         private IList<bool> _isOn;

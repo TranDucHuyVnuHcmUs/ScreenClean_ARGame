@@ -2,6 +2,7 @@
 
 using Mediapipe.Unity;
 using Mediapipe.Unity.HandTracking;
+using System.Collections.Generic;
 
 public class MyHandTrackingSolution_GameMultiHandLandmarkListAnnotationController_Listener :
     EventAdapter<MyHandTrackingSolution, GameMultiHandLandmarkListAnnotationController>
@@ -10,6 +11,7 @@ public class MyHandTrackingSolution_GameMultiHandLandmarkListAnnotationControlle
     {
         this.register.OnHandLandmarksOutputEvent.AddListener(this.listener.DrawLater);
         this.register.OnHandednessOutputEvent.AddListener(this.listener.DrawLater);
+        this.register.OnHandLandmarksRectsOutputEvent.AddListener(this.listener.DrawLater);
         this.register.OnStartRunEvent.AddListener(this.OnStartRun);
         this.register.OnAllOutputSyncEvent.AddListener(this.OnAllOutputSyncEvent);
     }
@@ -24,4 +26,5 @@ public class MyHandTrackingSolution_GameMultiHandLandmarkListAnnotationControlle
     {
         this.listener.DrawNow(output.handLandmarks, output.handedness);
     }
+
 }

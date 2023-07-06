@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class MagnetCube : MonoBehaviour
 {
+    public Transform magnetSlot;
     private Transform draggedTranform;
     private Transform oldParent;
-    public bool toParent = false;       // ask the collider to be this object's sibling (meaning, to be this obeject's parent's child) instead.
+    //public bool toParent = false;       // ask the collider to be this object's sibling (meaning, to be this obeject's parent's child) instead.
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.GetComponent<Magnetic>()) return;
         this.oldParent = other.transform.parent;
-        if (!toParent )
-            other.transform.parent = this.transform;
-        else other.transform.parent = this.transform.parent;
+        other.transform.parent = this.magnetSlot;
 
         this.draggedTranform = other.transform;
     }

@@ -9,15 +9,15 @@ public class DirtCube : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (!other.GetComponent<Towel>())
+        if (other.GetComponent<Towel>())
         {
             GameManager.Instance.AddScore(this.score);
             GameManager.Instance.RemoveDirt();
             Destroy(this.gameObject);
         }
-        else if (!other.GetComponent<GameHandLandmark>())
+        else if (other.GetComponent<GameHandLandmark>())
         {
-            var isClean = !other.GetComponent<GameHandLandmark>();
+            var isClean = other.GetComponent<GameHandLandmark>().isClean;
             if (!isClean) 
                  GameManager.Instance.GameOver();
         }

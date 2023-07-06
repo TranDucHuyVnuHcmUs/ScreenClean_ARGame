@@ -15,7 +15,13 @@ namespace Mediapipe.Unity
 
         private IList<NormalizedLandmarkList> _currentHandLandmarkLists;
         private IList<ClassificationList> _currentHandedness;
-        private IList<bool> _currentCleaningStates;
+
+        private IList<NormalizedRect> _currentNormalizedRect;
+        private IList<bool> _currentObjectActiveness;
+        private IList<bool> _currentCleanness;
+
+        public HandGestureAction activateObjectAction;
+
 
         public void DrawNow(IList<NormalizedLandmarkList> handLandmarkLists, IList<ClassificationList> handedness = null)
         {
@@ -33,9 +39,17 @@ namespace Mediapipe.Unity
         {
             UpdateCurrentTarget(handedness, ref _currentHandedness);
         }
-        public void DrawLater(IList<bool> cleaningStates)
+        public void DrawLater(IList<NormalizedRect> normalizedRects)
         {
-            UpdateCurrentTarget(cleaningStates, ref _currentCleaningStates);
+            UpdateCurrentTarget(normalizedRects, ref _currentNormalizedRect);
+        }
+        public void DrawLater(IList<bool> activeness)
+        {
+            UpdateCurrentTarget(activeness, ref _currentObjectActiveness);
+        }
+        public void SetCleanness(IList<bool> cleanness)
+        {
+            UpdateCurrentTarget(cleanness, ref _currentCleanness);
         }
 
         protected override void SyncNow()
@@ -43,14 +57,20 @@ namespace Mediapipe.Unity
             isStale = false;
             annotation.Draw(_currentHandLandmarkLists, _visualizeZ);
 
-            if (_currentHandedness != null)
-            {
+            annotation.MoveObjects(_currentNormalizedRect);
+
+            if (_currentObjectActiveness != null)
+                annotation.ActivateObjects(_currentObjectActiveness);
+            _currentObjectActiveness = null;
+
+            if (_currentHandedness != null){
                 annotation.SetHandedness(_currentHandedness);
             }
             _currentHandedness = null;
 
-            if (_currentCleaningStates != null)
-                annotation.SetCleaningStates(_currentCleaningStates);
+            if (_currentCleanness != null)
+                annotation.SetCleanness(_currentCleanness);
+            _currentCleanness = null;
         }
     }
 }

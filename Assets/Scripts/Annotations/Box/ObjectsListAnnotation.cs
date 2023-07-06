@@ -14,33 +14,8 @@ namespace Mediapipe.Unity
     using Color = UnityEngine.Color;
 #pragma warning restore IDE0065
 
-    public class BoxListAnnotation : ListAnnotation<BoxAnnotation>
+    public class ObjectsListAnnotation : ListAnnotation<ObjectsAnnotation>
     {
-        [SerializeField] private Color _color = Color.red;
-        [SerializeField, Range(0, 1)] private float _lineWidth = 1.0f;
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (!UnityEditor.PrefabUtility.IsPartOfAnyPrefab(this))
-            {
-                ApplyColor(_color);
-                ApplyLineWidth(_lineWidth);
-            }
-        }
-#endif
-
-        public void SetColor(Color color)
-        {
-            _color = color;
-            ApplyColor(_color);
-        }
-
-        public void SetLineWidth(float lineWidth)
-        {
-            _lineWidth = lineWidth;
-            ApplyLineWidth(_lineWidth);
-        }
 
         public void Draw(IList<Rect> targets, Vector2Int imageSize)
         {
@@ -74,28 +49,10 @@ namespace Mediapipe.Unity
             }
         }
 
-        protected override BoxAnnotation InstantiateChild(bool isActive = true)
+        protected override ObjectsAnnotation InstantiateChild(bool isActive = true)
         {
             var annotation = base.InstantiateChild(isActive);
-            annotation.SetLineWidth(_lineWidth);
-            annotation.SetColor(_color);
             return annotation;
-        }
-
-        private void ApplyColor(Color color)
-        {
-            foreach (var rect in children)
-            {
-                if (rect != null) { rect.SetColor(color); }
-            }
-        }
-
-        private void ApplyLineWidth(float lineWidth)
-        {
-            foreach (var rect in children)
-            {
-                if (rect != null) { rect.SetLineWidth(lineWidth); }
-            }
         }
 
     }

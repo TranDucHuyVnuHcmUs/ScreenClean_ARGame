@@ -24,6 +24,7 @@ namespace Mediapipe.Unity
         [SerializeField] private Color _connectionColor = Color.white;
         [SerializeField, Range(0, 1)] private float _connectionWidth = 1.0f;
 
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -143,13 +144,35 @@ namespace Mediapipe.Unity
             }
         }
 
-        internal void SetCleaningStates(IList<bool> currentCleaningStates)
+        internal void SetCleanness(IList<bool> currentCleanness)
         {
-            if (ActivateFor(currentCleaningStates))
+            if (ActivateFor(currentCleanness))
             {
-                CallActionForAll(currentCleaningStates, (annotation, target) =>
+                CallActionForAll(currentCleanness, (annotation, target) =>
                 {
                     if (annotation != null) { annotation.SetCleanness(target); }
+                });
+            }
+        }
+
+        internal void MoveObjects(IList<NormalizedRect> currentNormalizedRect)
+        {
+            if (ActivateFor(currentNormalizedRect))
+            {
+                CallActionForAll(currentNormalizedRect, (annotation, target) =>
+                {
+                    if (annotation != null) { annotation.MoveObjects(target); }
+                });
+            }
+        }
+
+        internal void ActivateObjects(IList<bool> currentObjectActiveness)
+        {
+            if (ActivateFor(currentObjectActiveness))
+            {
+                CallActionForAll(currentObjectActiveness, (annotation, target) =>
+                {
+                    if (annotation != null) { annotation.ActivateObject(target); }
                 });
             }
         }
