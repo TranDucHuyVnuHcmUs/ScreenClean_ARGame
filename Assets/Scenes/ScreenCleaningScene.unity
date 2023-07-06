@@ -844,7 +844,6 @@ GameObject:
   m_Component:
   - component: {fileID: 779690322}
   - component: {fileID: 779690319}
-  - component: {fileID: 779690327}
   - component: {fileID: 779690321}
   - component: {fileID: 779690320}
   - component: {fileID: 779690326}
@@ -1021,28 +1020,6 @@ MonoBehaviour:
   _preferableInferenceMode: 0
   _assetLoaderType: 2
   _enableGlog: 1
---- !u!114 &779690327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 779690318}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a224508633469c49afb23784339e878, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bootstrap: {fileID: 0}
-  screen: {fileID: 0}
-  graphRunner: {fileID: 779690321}
-  textureFramePool: {fileID: 779690320}
-  runningMode: 0
-  _handLandmarksAnnotationController: {fileID: 0}
-  _handRectsFromLandmarksAnnotationController: {fileID: 0}
-  _rectangleWithLabelListAnnotationController: {fileID: 0}
-  handGestureRecorder: {fileID: 0}
-  handGestureFromPersistenceRecognizer: {fileID: 0}
 --- !u!1001 &841116727
 PrefabInstance:
   m_ObjectHideFlags: 0
