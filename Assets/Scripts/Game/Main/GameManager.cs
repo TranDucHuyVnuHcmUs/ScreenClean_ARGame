@@ -12,10 +12,11 @@ public class GameManager : MonoBehaviour
     public float time;
 
     public GameConfig config;
-    public int currentLevelIndex = 0;
-
-    public int dirtCount = 0;
-    public GameObject dirtGroup;
+    [SerializeField] private GameStateIterator stateIterator;
+    [SerializeField] private GameStateGeneralRenderer stateRenderer;
+    
+    //public int dirtCount = 0;
+    //public GameObject dirtGroup;
 
     [Header("Events")]
     public UnityEvent nextLevelEvent, winEvent, gameOverEvent;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        stateIterator = new GameStateIterator(config.stateList);
         InitEvents();
     }
 
@@ -35,16 +37,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        dirtCount = dirtGroup.GetComponentsInChildren<DirtCube>().Length;
+        //dirtCount = dirtGroup.GetComponentsInChildren<DirtCube>().Length;
+        NextState();
     }
 
     public void RemoveDirt()
     {
-        --dirtCount;
-        if (dirtCount == 0)
-        {
-            this.Win();
-        }
+        //--dirtCount;
+        //if (dirtCount == 0)
+        //{
+        //    this.Win();
+        //}
     }
 
     public void AddScore(float addedScore)
@@ -82,5 +85,12 @@ public class GameManager : MonoBehaviour
         time += Time.deltaTime;
         addTimeEvent.Invoke(time);
         //timeUI.UpdateScore(score);
+    }
+
+    internal static void NextState()
+    {
+        GameManager.Instance.stateRenderer.UnrenderCurrentState();
+        if (!GameManager.Instance.stateIterator.EndOfList())
+            GameManager.Instance.stateRenderer.RenderState(GameManager.Instance.stateIterator.Next());
     }
 }

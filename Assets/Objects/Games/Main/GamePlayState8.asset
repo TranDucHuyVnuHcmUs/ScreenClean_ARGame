@@ -9,7 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 241b871607e248e41b6e43ef17d5a51e, type: 3}
-  m_Name: GameConfig
+  m_Script: {fileID: 11500000, guid: 28b84e6f7fc9b2542bd9143c47d6bd83, type: 3}
+  m_Name: GamePlayState8
   m_EditorClassIdentifier: 
-  stateList: {fileID: 11400000, guid: d51bc2188b65c0f42b3da625748e2fe7, type: 2}
+  next: {fileID: 0}
+  numberOfTowel: 1
+  numberOfDirt: 20
+  numberOfHardDirt: 2
+  numberOfWaterDrop: 2
+  useTimer: 1
+  time: 15

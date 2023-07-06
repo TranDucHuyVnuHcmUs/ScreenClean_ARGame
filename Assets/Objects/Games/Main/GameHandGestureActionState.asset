@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 241b871607e248e41b6e43ef17d5a51e, type: 3}
-  m_Name: GameConfig
+  m_Script: {fileID: 11500000, guid: c2a7ebb659e0f1c479c9f00a1b1d82cf, type: 3}
+  m_Name: GameHandGestureActionState
   m_EditorClassIdentifier: 
-  stateList: {fileID: 11400000, guid: d51bc2188b65c0f42b3da625748e2fe7, type: 2}
+  next: {fileID: 0}
+  actionToContinue: 3

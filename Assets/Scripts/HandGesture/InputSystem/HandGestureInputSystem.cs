@@ -124,6 +124,11 @@ public class HandGestureInputSystem : MonoBehaviour
     {
         instance.actionsRecognizedEvent.AddListener(actionsMethod);
     }
+    public static void UnregisterToActionsRecognizedEvent(UnityAction<List<HandGestureAction>> actionsMethod)
+    {
+        instance.actionsRecognizedEvent.RemoveListener(actionsMethod);
+    }
+
 
     public static void ListenToActionStartEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
     {
@@ -147,6 +152,29 @@ public class HandGestureInputSystem : MonoBehaviour
         if (keepActionEventListener != null) ListenToActionKeepEvent(action, keepActionEventListener);
         if (stopActionEventListener != null) ListenToActionStopEvent(action, stopActionEventListener);
     }
+
+    public static void UnregisterToActionStartEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
+    {
+        instance.actionEvents[FindIndex(action)].startEvent.RemoveListener(method);
+    }
+    public static void UnregisterToActionKeepEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
+    {
+        instance.actionEvents[FindIndex(action)].keepEvent.RemoveListener(method);
+    }
+    public static void UnregisterToActionStopEvent(HandGestureAction action, UnityAction<HandGestureInputEventArgs> method)
+    {
+        instance.actionEvents[FindIndex(action)].stopEvent.RemoveListener(method);
+    }
+    public static void UnregisterToAction(HandGestureAction action,
+        UnityAction<HandGestureInputEventArgs> startActionEventListener,
+        UnityAction<HandGestureInputEventArgs> keepActionEventListener,
+        UnityAction<HandGestureInputEventArgs> stopActionEventListener)
+    {
+        if (startActionEventListener != null) UnregisterToActionStartEvent(action, startActionEventListener);
+        if (keepActionEventListener != null) UnregisterToActionKeepEvent(action, keepActionEventListener);
+        if (stopActionEventListener != null) UnregisterToActionStopEvent(action, stopActionEventListener);
+    }
+
 
     public static void CallActionStartEvent(HandGestureAction action)
     {

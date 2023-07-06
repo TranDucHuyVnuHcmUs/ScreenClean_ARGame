@@ -1,7 +1,8 @@
 
 using UnityEngine;
 
+[System.Serializable]
 public abstract class GameState : ScriptableObject
 {
-    public GameState next;
+    public string description;
 }

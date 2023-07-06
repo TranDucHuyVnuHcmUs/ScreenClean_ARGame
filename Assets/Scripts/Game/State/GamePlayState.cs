@@ -7,7 +7,8 @@ public class GamePlayState : GameState
 {
     public int numberOfTowel;
     public int numberOfDirt;
-    public bool numberOfWaterDrop;
+    public int numberOfHardDirt;
+    public int numberOfWaterDrop;
     
     public bool useTimer;
     public float time;
