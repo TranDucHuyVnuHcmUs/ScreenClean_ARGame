@@ -24,7 +24,7 @@ namespace Mediapipe.Unity
         private void SetUnclean() { SetCleanness(false); }
         private void SetCleanness(bool isClean)
         {
-            gameHandLandmarkListAnnotation.SetCleanness(isClean);
+            gameHandLandmarkListAnnotation?.SetCleanness(isClean);
         }
     }
 }

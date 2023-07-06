@@ -124,7 +124,10 @@ public class HandGestureActionRecognizer : MonoBehaviour
     {
         List<HandGestureAction> recognizedActions = new List<HandGestureAction>();
         for (int i = 0; i < landmarksList.Count; i++) {
-            recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], handednessLists[i]));
+            if (i >= handednessLists.Count)
+                recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], new ClassificationList()));
+            else
+                recognizedActions.Add(RecognizeActionFromLandmarks(landmarksList[i], handednessLists[i]));
         }
         UpdateActionStatuses(recognizedActions);
     }
