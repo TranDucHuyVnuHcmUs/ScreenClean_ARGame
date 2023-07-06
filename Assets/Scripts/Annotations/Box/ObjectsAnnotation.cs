@@ -16,9 +16,15 @@ namespace Mediapipe.Unity
         public List<ObjectAnnotation> objectAnnotations;  
         [SerializeField] private Color _color = Color.red;
         [SerializeField, Range(0, 1)] private float _lineWidth = 1.0f;
+        private Dictionary<string, object> parameters;
 
         private static readonly Vector3[] _EmptyPositions = new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero };
 
+
+        private void Awake()
+        {
+            parameters = new Dictionary<string, object>();
+        }
 
         public void Draw(Vector3[] positions)
         {
@@ -56,6 +62,13 @@ namespace Mediapipe.Unity
         {
             foreach (var obj in objectAnnotations)
                 obj.SetObjectActive(b);
+        }
+
+        internal void SetParams(string key, object value)
+        {
+            this.parameters[key] = value;
+            foreach (var obj in objectAnnotations)
+                obj.SetParams(key, value);
         }
     }
 }

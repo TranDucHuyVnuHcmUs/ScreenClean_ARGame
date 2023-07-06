@@ -19,8 +19,14 @@ namespace Mediapipe.Unity
         [SerializeField] private GamePointListAnnotation _landmarkListAnnotation;
         [SerializeField] private GameConnectionListAnnotation _connectionListAnnotation;
         [SerializeField] private ObjectsAnnotation _objectsAnnotation;
+        [SerializeField] private bool _isHandClean;
+        [SerializeField] private Hand _handedness;
+
+        [Header("Colors")]
         [SerializeField] private Color _leftLandmarkColor = Color.green;
         [SerializeField] private Color _rightLandmarkColor = Color.green;
+        [SerializeField] private Color _cleanLeftHandColor = Color.blue;
+        [SerializeField] private Color _cleanRightHandColor = Color.cyan;
 
         public enum Hand
         {
@@ -90,6 +96,11 @@ namespace Mediapipe.Unity
         {
             _rightLandmarkColor = rightLandmarkColor;
         }
+        public void SetCleanHandColors(Color leftCleanHandColor, Color rightCleanHandColor)
+        {
+            _cleanLeftHandColor = leftCleanHandColor;
+            _cleanRightHandColor = rightCleanHandColor;
+        }
 
         public void SetLandmarkRadius(float landmarkRadius)
         {
@@ -108,14 +119,23 @@ namespace Mediapipe.Unity
 
         public void SetHandedness(Hand handedness)
         {
-            if (handedness == Hand.Left)
+            this._handedness = handedness;
+            UpdateColor();
+            _objectsAnnotation.SetParams("handedness", (object)handedness);
+        }
+
+        private void UpdateColor()
+        {
+            Color nextColor = _leftLandmarkColor;
+            if (this._handedness == Hand.Left)
             {
-                _landmarkListAnnotation.SetColor(_leftLandmarkColor);
+                nextColor = (_isHandClean) ? _cleanLeftHandColor : _leftLandmarkColor;
             }
-            else if (handedness == Hand.Right)
+            else if (_handedness == Hand.Right)
             {
-                _landmarkListAnnotation.SetColor(_rightLandmarkColor);
+                nextColor = (_isHandClean) ? _cleanRightHandColor : _rightLandmarkColor;
             }
+            _landmarkListAnnotation.SetColor(nextColor);
         }
 
         public void SetHandedness(IList<Classification> handedness)
@@ -153,6 +173,7 @@ namespace Mediapipe.Unity
 
         internal void SetCleanness(bool target)
         {
+            _isHandClean = target;
             _landmarkListAnnotation.SetCleanness(target);
         }
 

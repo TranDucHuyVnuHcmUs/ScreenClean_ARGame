@@ -1200,6 +1200,7 @@ MonoBehaviour:
   annotation: {fileID: 1934312949}
   _visualizeZ: 1
   activateObjectAction: 1
+  config: {fileID: 11400000, guid: 8d90a4e066be2ab41bfd254cd1354bf2, type: 2}
 --- !u!114 &841116732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2002,11 +2003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _annotationPrefab: {fileID: 4724242833946851653, guid: 5b287d7effa771641abe5390955822b4, type: 3}
-  _leftLandmarkColor: {r: 1, g: 0.5411765, b: 0, a: 0.7529412}
-  _rightLandmarkColor: {r: 1, g: 0.9098039, b: 0.28627452, a: 0.7529412}
-  _landmarkRadius: 30
-  _connectionColor: {r: 1, g: 1, b: 1, a: 0.654902}
-  _connectionWidth: 1
+  config: {fileID: 11400000, guid: 8d90a4e066be2ab41bfd254cd1354bf2, type: 2}
 --- !u!4 &1948132889 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1620015869145370099, guid: 8fcc7ea504479f06a9334ee2faa42b57, type: 3}

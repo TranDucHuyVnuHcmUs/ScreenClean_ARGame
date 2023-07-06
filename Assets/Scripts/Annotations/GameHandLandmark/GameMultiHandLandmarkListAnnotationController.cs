@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,10 +19,22 @@ namespace Mediapipe.Unity
 
         private IList<NormalizedRect> _currentNormalizedRect;
         private IList<bool> _currentObjectActiveness;
-        private IList<bool> _currentCleanness;
+        //private IList<bool> _currentCleanness;
 
         public HandGestureAction activateObjectAction;
 
+        public GameMultiHandLandmarkListAnnotationConfig config;
+
+        protected override void Start()
+        {
+            base.Start();
+            InitializeFromConfig(this.config);
+        }
+
+        private void InitializeFromConfig(GameMultiHandLandmarkListAnnotationConfig config)
+        {
+            annotation.SetConfig(config);
+        }
 
         public void DrawNow(IList<NormalizedLandmarkList> handLandmarkLists, IList<ClassificationList> handedness = null)
         {
@@ -47,10 +60,6 @@ namespace Mediapipe.Unity
         {
             UpdateCurrentTarget(activeness, ref _currentObjectActiveness);
         }
-        public void SetCleanness(IList<bool> cleanness)
-        {
-            UpdateCurrentTarget(cleanness, ref _currentCleanness);
-        }
 
         protected override void SyncNow()
         {
@@ -67,10 +76,6 @@ namespace Mediapipe.Unity
                 annotation.SetHandedness(_currentHandedness);
             }
             _currentHandedness = null;
-
-            if (_currentCleanness != null)
-                annotation.SetCleanness(_currentCleanness);
-            _currentCleanness = null;
         }
     }
 }

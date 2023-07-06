@@ -18,11 +18,7 @@ namespace Mediapipe.Unity
 
     public sealed class GameMultiHandLandmarkListAnnotation : ListAnnotation<GameHandLandmarkListAnnotation>
     {
-        [SerializeField] private Color _leftLandmarkColor = Color.green;
-        [SerializeField] private Color _rightLandmarkColor = Color.green;
-        [SerializeField] private float _landmarkRadius = 15.0f;
-        [SerializeField] private Color _connectionColor = Color.white;
-        [SerializeField, Range(0, 1)] private float _connectionWidth = 1.0f;
+        [SerializeField] private GameMultiHandLandmarkListAnnotationConfig config;
 
 
 #if UNITY_EDITOR
@@ -30,44 +26,15 @@ namespace Mediapipe.Unity
         {
             if (!UnityEditor.PrefabUtility.IsPartOfAnyPrefab(this))
             {
-                ApplyLeftLandmarkColor(_leftLandmarkColor);
-                ApplyRightLandmarkColor(_rightLandmarkColor);
-                ApplyLandmarkRadius(_landmarkRadius);
-                ApplyConnectionColor(_connectionColor);
-                ApplyConnectionWidth(_connectionWidth);
+                ApplyLeftLandmarkColor(config._leftLandmarkColor);
+                ApplyRightLandmarkColor(config._rightLandmarkColor);
+                ApplyLandmarkRadius(config._landmarkRadius);
+                ApplyConnectionColor(config._connectionColor);
+                ApplyConnectionWidth(config._connectionWidth);
             }
         }
 #endif
 
-        public void SetLeftLandmarkColor(Color leftLandmarkColor)
-        {
-            _leftLandmarkColor = leftLandmarkColor;
-            ApplyLeftLandmarkColor(_leftLandmarkColor);
-        }
-
-        public void SetRightLandmarkColor(Color rightLandmarkColor)
-        {
-            _rightLandmarkColor = rightLandmarkColor;
-            ApplyRightLandmarkColor(_rightLandmarkColor);
-        }
-
-        public void SetLandmarkRadius(float landmarkRadius)
-        {
-            _landmarkRadius = landmarkRadius;
-            ApplyLandmarkRadius(_landmarkRadius);
-        }
-
-        public void SetConnectionColor(Color connectionColor)
-        {
-            _connectionColor = connectionColor;
-            ApplyConnectionColor(_connectionColor);
-        }
-
-        public void SetConnectionWidth(float connectionWidth)
-        {
-            _connectionWidth = connectionWidth;
-            ApplyConnectionWidth(_connectionWidth);
-        }
 
         public void SetHandedness(IList<ClassificationList> handedness)
         {
@@ -96,11 +63,13 @@ namespace Mediapipe.Unity
         protected override GameHandLandmarkListAnnotation InstantiateChild(bool isActive = true)
         {
             var annotation = base.InstantiateChild(isActive);
-            annotation.SetLeftLandmarkColor(_leftLandmarkColor);
-            annotation.SetRightLandmarkColor(_rightLandmarkColor);
-            annotation.SetLandmarkRadius(_landmarkRadius);
-            annotation.SetConnectionColor(_connectionColor);
-            annotation.SetConnectionWidth(_connectionWidth);
+            annotation.SetLeftLandmarkColor(config._leftLandmarkColor);
+            annotation.SetRightLandmarkColor(config._rightLandmarkColor);
+            annotation.SetCleanHandColors(config._cleanLeftHandColor, config._cleanRightHandColor);
+
+            annotation.SetLandmarkRadius(config._landmarkRadius);
+            annotation.SetConnectionColor(config._connectionColor);
+            annotation.SetConnectionWidth(config._connectionWidth);
             return annotation;
         }
 
@@ -119,6 +88,14 @@ namespace Mediapipe.Unity
                 if (handLandmarkList != null) { handLandmarkList.SetRightLandmarkColor(rightLandmarkColor); }
             }
         }
+        private void ApplyCleanHandColors(Color cleanLeftHandColor, Color cleanRightHandColor)
+        {
+            foreach (var handLandmarkList in children)
+            {
+                if (handLandmarkList != null) { handLandmarkList.SetCleanHandColors(cleanLeftHandColor, cleanRightHandColor); }
+            }
+        }
+
 
         private void ApplyLandmarkRadius(float landmarkRadius)
         {
@@ -144,16 +121,6 @@ namespace Mediapipe.Unity
             }
         }
 
-        internal void SetCleanness(IList<bool> currentCleanness)
-        {
-            if (ActivateFor(currentCleanness))
-            {
-                CallActionForAll(currentCleanness, (annotation, target) =>
-                {
-                    if (annotation != null) { annotation.SetCleanness(target); }
-                });
-            }
-        }
 
         internal void MoveObjects(IList<NormalizedRect> currentNormalizedRect)
         {
@@ -175,6 +142,11 @@ namespace Mediapipe.Unity
                     if (annotation != null) { annotation.ActivateObject(target); }
                 });
             }
+        }
+
+        internal void SetConfig(GameMultiHandLandmarkListAnnotationConfig config)
+        {
+            this.config = config;
         }
     }
 }

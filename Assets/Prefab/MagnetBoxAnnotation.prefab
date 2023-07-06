@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7914936123746176852}
   - component: {fileID: 6300322105275471214}
   - component: {fileID: 2835551062399663167}
+  - component: {fileID: 8566773343178299273}
   m_Layer: 0
   m_Name: MagnetCube
   m_TagString: Untagged
@@ -119,6 +120,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetSlot: {fileID: 7895478041598257980}
+  triggerEvents: {fileID: 8566773343178299273}
+  objectLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8566773343178299273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157038271468833523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a6ea2029a74e3459fa3139025179a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerEnterVoidEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  triggerExitVoidEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3092094027876703359
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4893585306762048439}
-  - component: {fileID: 3068013815583649317}
+  - component: {fileID: 43017256231015855}
   m_Layer: 0
   m_Name: MagnetCubeAnnotation
   m_TagString: Untagged
@@ -229,7 +252,7 @@ Transform:
   m_Father: {fileID: 2164418481038904338}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3068013815583649317
+--- !u!114 &43017256231015855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,10 +261,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4345032045744389286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de2e8da1cfe09604bad5202c617fac54, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a3f10e6e8994734380664a0a6f84494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 1157038271468833523}
+  magnetCube: {fileID: 2835551062399663167}
+  gameHandLandmarkListAnnotation: {fileID: 0}
 --- !u!1 &8995907602355442132
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +299,7 @@ Transform:
   - {fileID: 4893585306762048439}
   - {fileID: 7130852896620157757}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7275131760169988353
 MonoBehaviour:
@@ -289,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectAnnotations:
-  - {fileID: 3068013815583649317}
+  - {fileID: 43017256231015855}
   - {fileID: 4724523975208139007}
   _color: {r: 1, g: 0, b: 0, a: 1}
   _lineWidth: 1

@@ -145,8 +145,11 @@ MonoBehaviour:
   _landmarkListAnnotation: {fileID: 4530253995967170105}
   _connectionListAnnotation: {fileID: 4596441974696859511}
   _objectsAnnotation: {fileID: 4308800943955589392}
+  _isHandClean: 0
   _leftLandmarkColor: {r: 1, g: 0.5411765, b: 0, a: 1}
   _rightLandmarkColor: {r: 0, g: 0.4627451, b: 1, a: 1}
+  _cleanLeftHandColor: {r: 0, g: 0, b: 1, a: 1}
+  _cleanRightHandColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1001 &6862811192798152721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,6 +158,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4724242833946851652}
     m_Modifications:
+    - target: {fileID: 43017256231015855, guid: 80d46d0b1a1f3734f92ca098e5a73149, type: 3}
+      propertyPath: gameHandLandmarkListAnnotation
+      value: 
+      objectReference: {fileID: 2173203563328788700}
     - target: {fileID: 2164418481038904338, guid: 80d46d0b1a1f3734f92ca098e5a73149, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -198,10 +205,6 @@ PrefabInstance:
     - target: {fileID: 2164418481038904338, guid: 80d46d0b1a1f3734f92ca098e5a73149, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7275131760169988353, guid: 80d46d0b1a1f3734f92ca098e5a73149, type: 3}
-      propertyPath: objectAnnotations.Array.size
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8995907602355442132, guid: 80d46d0b1a1f3734f92ca098e5a73149, type: 3}
       propertyPath: m_Name
