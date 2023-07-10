@@ -14,6 +14,6 @@ public class CountdownStateUI : MonoBehaviour
 
     private void ChangeTimeLabel(float arg0)
     {
-        timeText.text = arg0.ToString();
+        timeText.text =  ((int)Math.Floor(arg0) + 1).ToString();
     }
 }

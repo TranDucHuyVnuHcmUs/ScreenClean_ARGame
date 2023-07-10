@@ -91,6 +91,10 @@ public class GameManager : MonoBehaviour
     {
         GameManager.Instance.stateRenderer.UnrenderCurrentState();
         if (!GameManager.Instance.stateIterator.EndOfList())
-            GameManager.Instance.stateRenderer.RenderState(GameManager.Instance.stateIterator.Next());
+        {
+            var next = GameManager.Instance.stateIterator.Next();
+            var type = GameStateUtils.FindDerivedType(next);
+            GameManager.Instance.stateRenderer.RenderState(next, type);
+        }    
     }
 }

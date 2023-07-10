@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameStateGeneralRenderer : MonoBehaviour
@@ -12,6 +13,7 @@ public class GameStateGeneralRenderer : MonoBehaviour
     public GameWinStateRenderer winStateRenderer;
 
     [SerializeField] private GameState _currentState;
+    [SerializeField] private Type _currentGameStateDerivedType;
     
     private Dictionary<Type, GameStateRenderer> renderers;
 
@@ -27,8 +29,19 @@ public class GameStateGeneralRenderer : MonoBehaviour
         };
     }
 
+    public void RenderState(GameState state, Type derivedType)
+    {
+        _currentState = state;
+        _currentGameStateDerivedType = derivedType;
+
+        renderers[derivedType].RenderState(state);
+    }
+
     public void RenderState<T>(T state) where T: GameState
     {
+        _currentState = state;
+        _currentGameStateDerivedType = typeof(T);
+
         Type stateType = typeof(T);
         renderers[stateType].RenderState(state);
     }
@@ -36,11 +49,11 @@ public class GameStateGeneralRenderer : MonoBehaviour
     internal void UnrenderCurrentState()
     {
         if (_currentState == null) return;
-        UnrenderState(_currentState);
+        UnrenderState(_currentState, _currentGameStateDerivedType);
     }
 
-    private void UnrenderState<T>(T currentState) where T: GameState
+    private void UnrenderState(GameState currentState, Type currentType)
     {
-        renderers[typeof(T)].RenderState(currentState);
+        renderers[currentType].UnrenderState(currentState);
     }
 }

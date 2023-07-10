@@ -6,9 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class GameStateIterator
 {
-    private GameStateOrderedList _list;
-    private List<GameState> _unpackedList;          //without list state inside
-    private int index = 0;
+    [SerializeField] private GameStateOrderedList _list;
+    [SerializeField] private List<GameState> _unpackedList;          //without list state inside
+    [SerializeField] private int index = 0;
 
     public GameStateIterator(GameStateOrderedList list)
     {
@@ -20,7 +20,7 @@ public class GameStateIterator
     {
         if (index < _unpackedList.Count)
         {
-            Debug.Log("Next : " + _unpackedList[index + 1].name);
+            Debug.Log("Next : " + _unpackedList[index].name);
             return _unpackedList[index++];
         }
         else return null;

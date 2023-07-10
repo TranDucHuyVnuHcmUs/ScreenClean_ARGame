@@ -27,5 +27,6 @@ public class GameTimer : MonoBehaviour
             elapsedTime -= Time.deltaTime;
             elapsedTimeUpdateEvent.Invoke(elapsedTime);
         }
+        timeOverEvent.Invoke();
     }
 }
