@@ -135,7 +135,7 @@ namespace Mediapipe.Unity
 
         internal void ActivateObjects(IList<bool> currentObjectActiveness)
         {
-            if (ActivateFor(currentObjectActiveness))
+            //if (ActivateFor(currentObjectActiveness))
             {
                 CallActionForAll(currentObjectActiveness, (annotation, target) =>
                 {

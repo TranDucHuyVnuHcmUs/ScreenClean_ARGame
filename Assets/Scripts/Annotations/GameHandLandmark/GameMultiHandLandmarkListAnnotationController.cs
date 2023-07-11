@@ -56,7 +56,7 @@ namespace Mediapipe.Unity
         {
             UpdateCurrentTarget(normalizedRects, ref _currentNormalizedRect);
         }
-        public void DrawLater(IList<bool> activeness)
+        public void DrawLaterActiveness(IList<bool> activeness)
         {
             UpdateCurrentTarget(activeness, ref _currentObjectActiveness);
         }
@@ -65,8 +65,10 @@ namespace Mediapipe.Unity
         {
             isStale = false;
             annotation.Draw(_currentHandLandmarkLists, _visualizeZ);
+            //_currentHandLandmarkLists = null;
 
             annotation.MoveObjects(_currentNormalizedRect);
+            //_currentNormalizedRect = null;
 
             if (_currentObjectActiveness != null)
                 annotation.ActivateObjects(_currentObjectActiveness);
