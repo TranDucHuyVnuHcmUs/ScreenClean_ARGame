@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 
-public class Towel : MonoBehaviour
+public class Towel : GameAgent
 {
     public int capacity = 3;
     public int waterHold = 0;

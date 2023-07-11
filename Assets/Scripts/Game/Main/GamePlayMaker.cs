@@ -17,6 +17,8 @@ public class GamePlayMaker : MonoBehaviour
     private Dictionary<Type, GameAgentMaker> makerDict;
     private bool isInitialized = false;
 
+    [SerializeField] private List<GameAgent> createdAgents; 
+
     private void Awake()
     {
         makerDict = new Dictionary<Type, GameAgentMaker>();
@@ -34,6 +36,7 @@ public class GamePlayMaker : MonoBehaviour
         {
             maker.CleanObjects();
         }
+        this.createdAgents.Clear();
     }
 
     internal void MakeGame(GamePlayState state)
@@ -74,9 +77,14 @@ public class GamePlayMaker : MonoBehaviour
             try
             {
                 var cstate = Convert.ChangeType(gameAgentData, types[i]);
-                makerDict[types[i]].MakeObject(gameAgentData);
+                this.createdAgents.AddRange(makerDict[types[i]].MakeObject(gameAgentData));
             }
             catch { continue; }
         }
+    }
+
+    internal List<GameAgent> GetAllGameAgents()
+    {
+        return this.createdAgents;
     }
 }

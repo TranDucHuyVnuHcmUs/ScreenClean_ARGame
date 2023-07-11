@@ -5,7 +5,7 @@ using UnityEngine;
 public interface GameAgentMaker
 {
     public void CleanObjects();
-    public void MakeObject(GameAgentData agentData);
+    public List<GameAgent> MakeObject(GameAgentData agentData);
 }
 
 public abstract class GameAgentMaker<T> : MonoBehaviour, GameAgentMaker
@@ -15,23 +15,25 @@ public abstract class GameAgentMaker<T> : MonoBehaviour, GameAgentMaker
     public GameObject prefab;
     public Transform parentTransform;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         createdObjects = new List<GameObject>();
     }
 
-    public virtual void MakeObject(GameAgentData agentData)
+    public virtual List<GameAgent> MakeObject(GameAgentData agentData)
     {
-        MakeObjectFromData((T)agentData);
+        return MakeObjectFromData((T)agentData);
     }
 
-    protected virtual void MakeObjectFromData(T agentData)
+    protected virtual List<GameAgent> MakeObjectFromData(T agentData)
     {
         var newObj = Instantiate(prefab);
         createdObjects.Add(newObj);
 
         newObj.transform.parent = parentTransform;
         InitObject(newObj, agentData);
+
+        return new List<GameAgent>() { newObj.GetComponentInChildren<GameAgent>() };
     }
 
     internal abstract void InitObject(GameObject newObj, T agentData);

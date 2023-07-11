@@ -20,3 +20,4 @@ MonoBehaviour:
   maxCapacity: 2
   minRange: {x: -0.4, y: -0.4, z: 0}
   maxRange: {x: 0.4, y: 0.4, z: 0}
+  minDistanceThreshold: 100

@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -85,5 +86,10 @@ public class GamePlay : MonoBehaviour
     internal static void StartGame()
     {
         onGameStart.Invoke();
+    }
+
+    internal static List<GameAgent> GetAllGameAgents()
+    {
+        return instance.gameMaker.GetAllGameAgents();
     }
 }

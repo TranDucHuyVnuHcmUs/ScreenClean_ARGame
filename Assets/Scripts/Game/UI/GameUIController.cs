@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameUIController : MonoBehaviour
 {
-    public GameUI workUI, timeUI;
+    public GameUI timeUI;
     public GameObject gameOverUI, winUI;
 
     private void Start()
@@ -11,6 +11,7 @@ public class GameUIController : MonoBehaviour
         GamePlay.addTimeEvent.AddListener(UpdateTime);
         GamePlay.onGameLost.AddListener(ShowGameOverUI);
     }
+
 
     private void ShowGameOverUI()
     {

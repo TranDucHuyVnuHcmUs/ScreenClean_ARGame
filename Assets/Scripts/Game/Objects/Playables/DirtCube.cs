@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DirtCube : MonoBehaviour
+public class DirtCube : GameAgent
 {
     public int capacity = 10;
     public DirtCubeUI dirtCubeUI;

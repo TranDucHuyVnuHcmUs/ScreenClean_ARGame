@@ -11,4 +11,5 @@ public class DirtRandomizerData : GameConcreteData
     public int maxCapacity = 3;
     public Vector3 minRange = new Vector3(-0.5f, -0.5f, 0);
     public Vector3 maxRange = new Vector3(0.5f, 0.5f, 0);          // from [0,1] only! 
+    public float minDistanceThreshold = 0.15f;              // if any agent object is close to a dirt object -> re-randomize.
 }

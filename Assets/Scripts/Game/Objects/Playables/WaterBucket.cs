@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class WaterBucket : MonoBehaviour
+public class WaterBucket : GameAgent
 {
     public int capacity = 10;
     public WaterBucketUI ui;

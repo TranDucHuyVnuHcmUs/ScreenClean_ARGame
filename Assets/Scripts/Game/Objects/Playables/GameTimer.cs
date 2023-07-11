@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-public class GameTimer : MonoBehaviour
+public class GameTimer : GameAgent
 
 {
     public FloatUnityEvent elapsedTimeUpdateEvent;
