@@ -4,7 +4,7 @@ public class GameTimerMaker : GameConcreteMaker<GameTimerData>
 {
     internal override void InitObject(GameObject newObj, GameTimerData agentData)
     {
-        var gameTimerCtrl = newObj.GetComponent<GameTimerController>();
+        var gameTimerCtrl = newObj.GetComponentInChildren<GameTimerController>();
         gameTimerCtrl.time = agentData.time;
         GamePlay.onGameStart.AddListener(gameTimerCtrl.StartTimer);
         GamePlay.onGamePaused.AddListener(gameTimerCtrl.PauseTimer);

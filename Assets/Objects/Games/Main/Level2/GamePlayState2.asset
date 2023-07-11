@@ -16,4 +16,5 @@ MonoBehaviour:
   PlaygroundData: {fileID: 11400000, guid: 410ba102f8398e64da69ddfe62b647fd, type: 2}
   agentsData:
   - {fileID: 11400000, guid: 23bae90512072f1428431ab5fa6ef60a, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 15d10c2618eb3cc49910219f1a3f51cf, type: 2}
+  - {fileID: 11400000, guid: 079f7141b5287c849b343fb8f8654793, type: 2}

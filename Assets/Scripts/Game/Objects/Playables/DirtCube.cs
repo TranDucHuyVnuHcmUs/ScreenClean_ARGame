@@ -6,10 +6,12 @@ using UnityEngine;
 public class DirtCube : MonoBehaviour
 {
     public int capacity = 10;
+    public DirtCubeUI dirtCubeUI;
 
     private void Start()
     {
         GamePlay.AddWork(capacity);
+        dirtCubeUI.ShowCapacity(capacity);
     }
 
     public void OnTriggerEnter(Collider other)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d227604f68266694a8a4db3b926b3b6e, type: 3}
   m_Name: DirtData
   m_EditorClassIdentifier: 
-  initLocalPosition: {x: -0.25, y: 0.25, z: 0}
+  initLocalPosition: {x: 0.25, y: 0.15, z: 0}
   initLocalRotation: {x: 0, y: 0, z: 0}
-  initLocalScale: {x: 100, y: 100, z: 100}
+  initLocalScale: {x: 1, y: 1, z: 1}
   capacity: 3

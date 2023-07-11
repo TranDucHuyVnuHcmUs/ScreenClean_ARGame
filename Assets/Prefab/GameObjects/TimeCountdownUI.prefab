@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6100716539324507135}
-  - component: {fileID: 6695374511026659656}
   m_Layer: 0
   m_Name: TimeCountdownUI
   m_TagString: Untagged
@@ -33,21 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6695374511026659656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233870237112117095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88a7344f662b1c34d8d7d9b07111eb67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: {fileID: 6587869757975930010}
-  timeLabel: {fileID: 5502742860597855637}
-  time: 0
 --- !u!1 &5886164705310550992
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,6 +124,7 @@ GameObject:
   - component: {fileID: 5687988915239858863}
   - component: {fileID: 7945357676936288164}
   - component: {fileID: 6587869757975930010}
+  - component: {fileID: 966696796514464957}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -222,3 +207,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isPaused: 0
+--- !u!114 &966696796514464957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6673464511647324539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88a7344f662b1c34d8d7d9b07111eb67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 6587869757975930010}
+  timeLabel: {fileID: 5502742860597855637}
+  time: 0

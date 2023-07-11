@@ -9,6 +9,13 @@ public class Towel : MonoBehaviour
 {
     public int capacity = 3;
     public int waterHold = 0;
+    public TowelUI ui;
+
+    private void Start()
+    {
+        ui.ShowCapacity(capacity);
+        ui.ShowWaterHold(waterHold);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,8 +32,10 @@ public class Towel : MonoBehaviour
     private void InteractWithWaterBucket(WaterBucket waterBucket)
     {
         var waterHoldIncrease = Math.Min(waterBucket.capacity, capacity - waterHold);
-        waterBucket.capacity -= waterHoldIncrease;
+        //waterBucket.capacity -= waterHoldIncrease;
+        waterBucket.GiveWater(waterHoldIncrease);
         waterHold += waterHoldIncrease;
+        ui.ShowWaterHold(waterHold);
     }
 
     private void InteractWithDirt(DirtCube dirtCube)
@@ -36,6 +45,7 @@ public class Towel : MonoBehaviour
         else
         {
             this.waterHold -= dirtCube.capacity;
+            ui.ShowWaterHold(waterHold);
             Destroy(dirtCube.gameObject);
         }
     }

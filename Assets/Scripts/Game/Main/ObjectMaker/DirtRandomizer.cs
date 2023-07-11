@@ -3,8 +3,16 @@ using UnityEngine;
 
 public class DirtRandomizer : GameConcreteMaker<DirtRandomizerData>
 {
+    private int totalCapacity;
+    private int maxCapacity = 3;
+    private int count = 1;
+
     protected override void MakeObjectFromData(DirtRandomizerData agentData)
     {
+        totalCapacity = agentData.totalCapacity;
+        maxCapacity = agentData.maxCapacity;
+        count = agentData.number;
+
         for (int i = 0; i < agentData.number; i++)
         {
             var newObj = Instantiate(prefab);
@@ -28,6 +36,30 @@ public class DirtRandomizer : GameConcreteMaker<DirtRandomizerData>
         newObj.transform.localPosition = PositionAccordingToPlayRect(newObj.transform.localPosition, playgroundData.screenRectSize);
         newObj.transform.localRotation = Quaternion.Euler(agentData.initLocalRotation);
         newObj.transform.localScale = agentData.initLocalScale;
+
+        var dirtComp = newObj.GetComponentInChildren<DirtCube>();
+        if (!dirtComp) return;
+        dirtComp.capacity = RandomizerCapacity();
+    }
+
+    private int RandomizerCapacity()
+    {
+        int cap = 0;
+        if (count == 1)
+        {
+            cap = this.totalCapacity;
+            --count;
+            this.totalCapacity = 0;
+            maxCapacity = 0;
+            return cap;
+        }
+        else cap = UnityEngine.Random.Range(1, maxCapacity + 1);
+        
+        this.totalCapacity -= cap;
+        --count;
+        maxCapacity = Math.Min(maxCapacity, this.totalCapacity / this.count);
+
+        return cap;
     }
 
     private Vector3 PositionAccordingToPlayRect(Vector3 localPosition, Vector2 screenRectSize)

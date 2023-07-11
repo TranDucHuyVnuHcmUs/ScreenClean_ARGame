@@ -29,6 +29,7 @@ public abstract class GameAgentMaker<T> : MonoBehaviour, GameAgentMaker
     {
         var newObj = Instantiate(prefab);
         createdObjects.Add(newObj);
+
         newObj.transform.parent = parentTransform;
         InitObject(newObj, agentData);
     }

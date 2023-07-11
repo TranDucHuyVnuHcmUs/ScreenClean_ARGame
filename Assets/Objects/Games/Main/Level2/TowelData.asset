@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initLocalPosition: {x: 0, y: 0, z: 0}
   initLocalRotation: {x: 0, y: 0, z: 0}
-  initLocalScale: {x: 0, y: 0, z: 0}
+  initLocalScale: {x: 1, y: 1, z: 1}
   capacity: 3

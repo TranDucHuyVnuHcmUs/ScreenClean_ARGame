@@ -4,9 +4,16 @@ using UnityEngine;
 public class WaterBucket : MonoBehaviour
 {
     public int capacity = 10;
+    public WaterBucketUI ui;
 
-    public void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        
+        ui.ShowCapacity(capacity);
+    }
+
+    public void GiveWater(int waterAmount)
+    {
+        capacity -= waterAmount;
+        ui.ShowCapacity(capacity);
     }
 }
