@@ -3,18 +3,17 @@ using UnityEngine;
 
 public class GameUIController : MonoBehaviour
 {
-    public GameManager gameManager;
-    public GameUI scoreUI, timeUI;
+    public GamePlay gamePlay;
+    public GameUI workUI, timeUI;
     public GameObject gameOverUI, winUI;
 
     private void Start()
     {
-        if (gameManager == null)
-            gameManager = GameManager.Instance;
-        gameManager.addScoreEvent.AddListener(UpdateScore);
-        gameManager.addTimeEvent.AddListener(UpdateTime);
-        gameManager.gameOverEvent.AddListener(ShowGameOverUI);
-        gameManager.winEvent.AddListener(ShowGameWinUI);
+        if (gamePlay == null)
+            gamePlay = GamePlay.instance;
+        gamePlay.workEvent.AddListener(UpdateScore);
+        gamePlay.addTimeEvent.AddListener(UpdateTime);
+        GamePlay.onGameLost.AddListener(ShowGameOverUI);
     }
 
     private void ShowGameWinUI()
@@ -34,6 +33,6 @@ public class GameUIController : MonoBehaviour
 
     internal void UpdateScore(float score)
     {
-        this.scoreUI.UpdateScore(score);
+        this.workUI.UpdateScore(score);
     }
 }

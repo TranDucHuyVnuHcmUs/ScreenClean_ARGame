@@ -7,7 +7,7 @@ public class GameCountdownStateRenderer : GameStateRenderer<GameCountdownState>
 
     private void Start()
     {
-        gameTimer.timeOverEvent.AddListener(GameManager.NextState);
+        gameTimer.onTimeOver.AddListener(GameManager.NextState);
     }
 
     public override void RenderState(GameCountdownState state)

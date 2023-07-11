@@ -2,11 +2,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-
 public class GameTimer : MonoBehaviour
+
 {
     public FloatUnityEvent elapsedTimeUpdateEvent;
-    public UnityEvent timeOverEvent;
+    public UnityEvent onTimeOver;
+    [SerializeField] private bool isPaused;
 
     private void Awake()
     {
@@ -24,9 +25,15 @@ public class GameTimer : MonoBehaviour
         while (elapsedTime > 0)
         {
             yield return new WaitForEndOfFrame();
-            elapsedTime -= Time.deltaTime;
-            elapsedTimeUpdateEvent.Invoke(elapsedTime);
+            if (!isPaused)
+            {
+                elapsedTime -= Time.deltaTime;
+                elapsedTimeUpdateEvent.Invoke(elapsedTime);
+            }
         }
-        timeOverEvent.Invoke();
+        onTimeOver.Invoke();
     }
+
+    internal void PauseCountdown() { isPaused = true; }
+    internal void ResumeCountdown() { isPaused = false; }   
 }
