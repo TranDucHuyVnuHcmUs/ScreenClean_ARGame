@@ -1,4 +1,5 @@
 using Mediapipe.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,12 @@ using UnityEngine;
 public class DirtCube : GameAgent
 {
     public int capacity = 10;
-    public DirtCubeUI dirtCubeUI;
+    public DirtCubeUI ui;
 
     private void Start()
     {
         GamePlay.AddWork(capacity);
-        dirtCubeUI.ShowCapacity(capacity);
+        ui.ShowCapacity(capacity);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -26,7 +27,13 @@ public class DirtCube : GameAgent
 
     private void OnDestroy()
     {
-        GamePlay.Work(capacity);
+        GamePlay.DecreaseWork(capacity);
     }
 
+    internal void BeCleaned(int waterHold)
+    {
+        this.capacity -= waterHold;
+        this.ui.ShowCapacity(capacity);
+        GamePlay.DecreaseWork(waterHold);
+    }
 }

@@ -46,7 +46,7 @@ public class GamePlay : MonoBehaviour
         instance.gameMaker.MakeGame(state);
     }
 
-    public static void Work(float workValue)
+    public static void DecreaseWork(float workValue)
     {
         instance.works -= workValue;
         workEvent.Invoke(workValue);

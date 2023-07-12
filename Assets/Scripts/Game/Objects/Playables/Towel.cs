@@ -40,8 +40,14 @@ public class Towel : GameAgent
 
     private void InteractWithDirt(DirtCube dirtCube)
     {
-        if (dirtCube.capacity > this.waterHold)
+        if (this.waterHold == 0)
             GamePlay.GameOver();
+        else if (dirtCube.capacity > this.waterHold)
+        {
+            dirtCube.BeCleaned((this.waterHold / 2));
+            this.waterHold = 0;
+            ui.ShowWaterHold(waterHold);
+        }
         else
         {
             this.waterHold -= dirtCube.capacity;
