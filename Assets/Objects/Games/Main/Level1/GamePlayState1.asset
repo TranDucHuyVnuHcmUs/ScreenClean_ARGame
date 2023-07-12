@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b84e6f7fc9b2542bd9143c47d6bd83, type: 3}
+  m_Name: GamePlayState1
+  m_EditorClassIdentifier: 
+  description: 
+  PlaygroundData: {fileID: 11400000, guid: 410ba102f8398e64da69ddfe62b647fd, type: 2}
+  agentsData:
+  - {fileID: 11400000, guid: c837200c17dbc0845acfed9aa2759237, type: 2}
+  - {fileID: 11400000, guid: d604747fc2f09324780d0ebb617365df, type: 2}
+  - {fileID: 11400000, guid: 32905fcd9d5e3154fb4e90e53355076b, type: 2}
+  - {fileID: 11400000, guid: 4b73cf07c85909843904dbf4581cd247, type: 2}

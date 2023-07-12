@@ -19,7 +19,7 @@ public class HandGestureInputSystem_GameMultiHandLandmarkListAnnotationControlle
         {
             bools.Add((recognizedActions[i] == this.listener.activateObjectAction)) ;
         }
-        this.listener.DrawLater(bools);
+        this.listener.DrawLaterActiveness(bools);
     }
 
 }
