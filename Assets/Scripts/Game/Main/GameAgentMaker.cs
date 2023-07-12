@@ -38,7 +38,7 @@ public abstract class GameAgentMaker<T> : MonoBehaviour, GameAgentMaker
 
     internal abstract void InitObject(GameObject newObj, T agentData);
 
-    public void CleanObjects()
+    public virtual void CleanObjects()
     {
         while (this.createdObjects.Count > 0)
         {

@@ -26,6 +26,7 @@ public class DirtRandomizer : GameConcreteMaker<DirtRandomizerData>
         {
             var newObj = Instantiate(prefab);
             newObj.transform.parent = parentTransform;
+            this.createdObjects.Add(newObj);
             InitObject(newObj, agentData);
             var dirtCubeComp = newObj.GetComponentInChildren<DirtCube>();
             if (dirtCubeComp)
@@ -67,10 +68,11 @@ public class DirtRandomizer : GameConcreteMaker<DirtRandomizerData>
     private bool PositionIsCloseToAnyAgent(Vector3 localPosition, float threshold)
     {
         List<GameAgent> agents = GamePlay.GetAllGameAgents();
-        foreach (var agent in agents)
-        {
-            if ( Vector3.Distance(agent.transform.localPosition, localPosition) <= threshold) return true;
+        foreach (var agent in agents) {
+            if ( Vector3.Distance(agent.transform.parent.localPosition, localPosition) <= threshold) return true;
         }
+        foreach (var dirt in dirts)
+            if (Vector3.Distance(dirt.transform.parent.localPosition, localPosition) <= threshold) return true;
         return false;
     }
 
@@ -84,6 +86,10 @@ public class DirtRandomizer : GameConcreteMaker<DirtRandomizerData>
             this.totalCapacity = 0;
             maxCapacity = 0;
             return cap;
+        }
+        else if ( ((float)maxCapacity) == (totalCapacity * 1.0f / count))
+        {
+            cap = maxCapacity;
         }
         else cap = UnityEngine.Random.Range(1, maxCapacity + 1);
         
@@ -100,5 +106,11 @@ public class DirtRandomizer : GameConcreteMaker<DirtRandomizerData>
             localPosition.x * screenRectSize.x,
             localPosition.y * screenRectSize.y,
             localPosition.z);
+    }
+
+    public override void CleanObjects()
+    {
+        base.CleanObjects();
+        this.dirts.Clear();
     }
 }
