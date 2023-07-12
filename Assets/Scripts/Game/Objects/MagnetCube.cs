@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,8 @@ using UnityEngine.Events;
 public class MagnetCube : MonoBehaviour
 {
     public Transform magnetSlot;
-    private Transform draggedTranform;
+    [SerializeField] private bool isDragging = false;
+    private Transform draggedTransform;
     private Transform oldParent;
     //public bool toParent = false;       // ask the collider to be this object's sibling (meaning, to be this obeject's parent's child) instead.
 
@@ -31,20 +33,31 @@ public class MagnetCube : MonoBehaviour
         this.oldParent = other.transform.parent;
         other.transform.parent = this.magnetSlot;
 
-        this.draggedTranform = other.transform;
+        this.draggedTransform = other.transform;
+        isDragging = true;
+        other.GetComponent<Magnetic>().draggingMagnet = this;
         objectAttractedEvent.Invoke(other);
     }
 
-    private void StopAttracting()
+    internal void StopAttracting()
     {
-        if (!this.draggedTranform) return;
-        this.draggedTranform.parent = oldParent;
-        this.draggedTranform = null;
+        if (!this.draggedTransform) return;
+        this.draggedTransform.parent = oldParent;
+        this.draggedTransform = null;
+        isDragging = false;
         objectLeftEvent.Invoke();
     }
+
 
     private void OnDisable()
     {
         StopAttracting();
+    }
+
+    internal void DestroyDraggingObject()
+    {
+        this.draggedTransform = null;
+        isDragging = false;
+        objectLeftEvent.Invoke();
     }
 }

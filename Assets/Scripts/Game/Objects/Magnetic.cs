@@ -7,4 +7,10 @@ using UnityEngine;
 /// </summary>
 public class Magnetic : MonoBehaviour
 {
+    public MagnetCube draggingMagnet;
+
+    private void OnDestroy()
+    {
+        draggingMagnet?.DestroyDraggingObject();
+    }
 }
