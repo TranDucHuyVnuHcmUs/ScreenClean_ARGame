@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6f48c50b9114448bdf2f020b3d7637, type: 3}
   m_Name: WaterBucketData
   m_EditorClassIdentifier: 
-  initLocalPosition: {x: -0.4, y: -0.35, z: 0}
+  initLocalPosition: {x: -0.4, y: -0.4, z: 0}
   initLocalRotation: {x: 0, y: 0, z: 0}
   initLocalScale: {x: 1, y: 1, z: 1}
-  capacity: 10
+  capacity: 14

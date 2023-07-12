@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 000de08b418cb7f40988fbf123ffc5ff, type: 3}
   m_Name: GameLevelState8
   m_EditorClassIdentifier: 
-  next: {fileID: 0}
+  description: 
   children:
   - {fileID: 11400000, guid: b472eecbd7ad36440936c263ed58a886, type: 2}
-  - {fileID: 11400000, guid: 20a7f9bdab469e84c96461db9243a05a, type: 2}
+  - {fileID: 11400000, guid: 378dc87ec5b35004abf14538e7a24582, type: 2}
   - {fileID: 11400000, guid: f270032ed23148b47a1ba3efad45732b, type: 2}

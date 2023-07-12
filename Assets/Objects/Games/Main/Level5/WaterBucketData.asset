@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b84e6f7fc9b2542bd9143c47d6bd83, type: 3}
-  m_Name: GamePlayState3
+  m_Script: {fileID: 11500000, guid: 5b6f48c50b9114448bdf2f020b3d7637, type: 3}
+  m_Name: WaterBucketData
   m_EditorClassIdentifier: 
-  next: {fileID: 0}
-  numberOfTowel: 1
-  numberOfDirt: 6
-  numberOfHardDirt: 0
-  numberOfWaterDrop: 0
-  useTimer: 0
-  time: 0
+  initLocalPosition: {x: -0.3, y: -0.2, z: 0.1}
+  initLocalRotation: {x: 0, y: 0, z: 0}
+  initLocalScale: {x: 1, y: 1, z: 1}
+  capacity: 10
